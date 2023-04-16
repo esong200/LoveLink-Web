@@ -139,8 +139,11 @@ input[type="submit"]:hover {
 
 <input type="submit" value="Submit" class="btn btn-primary">
  </form>
-  <script>
-    document.getElementById("loveLanguageForm").addEventListener("submit", function (event) {
+<script>
+  (function () {
+    const form = document.getElementById("loveLanguageForm");
+
+    function handleFormSubmit(event) {
       event.preventDefault();
 
       const responsePage = document.createElement("div");
@@ -150,7 +153,16 @@ input[type="submit"]:hover {
 
       document.body.innerHTML = "";
       document.body.appendChild(responsePage);
-    });
-  </script>
+    }
+
+    if (form.addEventListener) {
+      form.addEventListener("submit", handleFormSubmit, false);
+    } else if (form.attachEvent) {
+      form.attachEvent("onsubmit", handleFormSubmit);
+    } else {
+      form.onsubmit = handleFormSubmit;
+    }
+  })();
+</script>
 </body>
 </html>
