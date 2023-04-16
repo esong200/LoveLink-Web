@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Language Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+  text-align: center;
+  padding: 20px;
+}
+
+form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.question {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5px;
+}
+
+input[type="text"], select {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+ </style>
+</head>
+<body>
+  <h1>Love Language Quiz</h1>
+  <form id="loveLanguageForm">
+    <div class="question">
+      <label for="name">What's your name?</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div class="question">
+  <label>What's your preferred way to show love?</label>
+  <div class="input-container">
+    <input type="radio" id="physicalTouch" name="showLove" value="physicalTouch" required>
+    <label for="physicalTouch">Physical Touch</label>
+    <input type="radio" id="wordsOfAffirmation" name="showLove" value="wordsOfAffirmation">
+    <label for="wordsOfAffirmation">Words of Affirmation</label>
+    <input type="radio" id="qualityTime" name="showLove" value="qualityTime">
+    <label for="qualityTime">Quality Time</label>
+    <input type="radio" id="gifts" name="showLove" value="gifts">
+    <label for="gifts">Gifts</label>
+    <input type="radio" id="actsOfService" name="showLove" value="actsOfService">
+    <label for="actsOfService">Acts of Service</label>
+  </div>
+</div>
+
+<div class="question">
+  <label for="preferredGift">What type of gift do you prefer to receive?</label>
+  <select id="preferredGift" name="preferredGift" required>
+    <option value="">Select a gift type</option>
+    <option value="practical">Practical</option>
+    <option value="thoughtful">Thoughtful</option>
+    <option value="expensive">Expensive</option>
+    <option value="handmade">Handmade</option>
+  </select>
+</div>
+
+<div class="question">
+  <label for="favoriteActivity">What's your favorite activity to do with your partner?</label>
+  <input type="text" id="favoriteActivity" name="favoriteActivity" required>
+</div>
+<div class="question">
+  <label>How do you prefer to spend quality time with your partner?</label>
+  <div class="input-container">
+    <input type="checkbox" id="watchingMovies" name="qualityTimePreferences" value="watchingMovies">
+    <label for="watchingMovies">Watching Movies</label>
+    <input type="checkbox" id="goingForWalks" name="qualityTimePreferences" value="goingForWalks">
+    <label for="goingForWalks">Going for Walks</label>
+    <input type="checkbox" id="cookingTogether" name="qualityTimePreferences" value="cookingTogether">
+    <label for="cookingTogether">Cooking Together</label>
+    <input type="checkbox" id="traveling" name="qualityTimePreferences" value="traveling">
+    <label for="traveling">Traveling</label>
+  </div>
+</div>
+
+<input type="submit" value="Submit">
+  </form>
+  <script>
+    document.getElementById("loveLanguageForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const responsePage = document.createElement("div");
+      responsePage.innerHTML = '<h1>You Love Each Other</h1><button onclick="window.location.reload()">Try Again</button>';
+      responsePage.style.textAlign = "center";
+      responsePage.style.padding = "50px";
+
+      document.body.innerHTML = "";
+      document.body.appendChild(responsePage);
+    });
+  </script>
+</body>
+</html>
