@@ -1,37 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Results Page</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <style>
-          body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: beige;
-          }
-          h1 {
-            text-align: center;
-            padding: 20px;
-          }
-          .results-container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-          }
-        </style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results Page</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: beige;
+    }
+    h1 {
+      text-align: center;
+      padding: 20px;
+    }
+    .results-container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+      border-radius: 5px;
+    }
+    .button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+  </style>
+</head>
 <body>
-    <div style="text-align: center; padding: 50px;">
-        <h1>You Love Each Other</h1>
-        <a href="quiz_prototype.HTML" class="btn btn-primary">Try Again</a>  
+    <h1>Quiz Results</h1>
+    <div class="results-container">
+      <!-- Quiz results will be displayed here -->
     </div>
+    <div class="button-container">
+      <a href="quiz_prototype.HTML" class="btn btn-primary">Try Again</a>
+    </div>
+
+  <script>
+    // Get quiz results from sessionStorage
+    const name = sessionStorage.getItem("name");
+    const showLove = sessionStorage.getItem("showLove");
+    const preferredGift = sessionStorage.getItem("preferredGift");
+    const favoriteActivity = sessionStorage.getItem("favoriteActivity");
+
+    // Display quiz results
+    document.querySelector(".results-container").innerHTML = `
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Preferred way to show love:</strong> ${showLove}</p>
+      <p><strong>Preferred gift:</strong> ${preferredGift}</p>
+      <p><strong>Favorite activity:</strong> ${favoriteActivity}</p>
+    `;
+  </script>
 </body>
 </html>

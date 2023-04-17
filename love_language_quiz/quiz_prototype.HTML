@@ -78,23 +78,23 @@
       <label>What's your preferred way to show love?</label>
       <div class="input-container">
         <div class="form-check">
-          <input class="form-check-input" type="radio" id="physicalTouch" name="showLove" value="physicalTouch" required>
+          <input class="form-check-input" type="radio" id="physicalTouch" name="showLove" value="Physical Touch" required>
           <label class="form-check-label" for="physicalTouch">Physical Touch</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" id="wordsOfAffirmation" name="showLove" value="wordsOfAffirmation">
+          <input class="form-check-input" type="radio" id="wordsOfAffirmation" name="showLove" value="Words Of Affirmation">
           <label class="form-check-label" for="wordsOfAffirmation">Words of Affirmation</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" id="qualityTime" name="showLove" value="qualityTime">
+          <input class="form-check-input" type="radio" id="qualityTime" name="showLove" value="Quality Time">
           <label class="form-check-label" for="qualityTime">Quality Time</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" id="gifts" name="showLove" value="gifts">
+          <input class="form-check-input" type="radio" id="gifts" name="showLove" value="Gifts">
           <label class="form-check-label" for="gifts">Gifts</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" id="actsOfService" name="showLove" value="actsOfService">
+          <input class="form-check-input" type="radio" id="actsOfService" name="showLove" value="Acts Of Service">
           <label class="form-check-label" for="actsOfService">Acts of Service</label>
         </div>
       </div>
@@ -103,10 +103,10 @@
       <label for="preferredGift">What type of gift do you prefer to receive?</label>
       <select id="preferredGift" name="preferredGift" class="form-control" required>
         <option value="">Select a gift type</option>
-        <option value="practical">Practical</option>
-        <option value="thoughtful">Thoughtful</option>
-        <option value="expensive">Expensive</option>
-        <option value="handmade">Handmade</option>
+        <option value="Practical">Practical</option>
+        <option value="Thoughtful">Thoughtful</option>
+        <option value="Expensive">Expensive</option>
+        <option value="Handmade">Handmade</option>
       </select>
     </div>
     <div class="form-group question">
@@ -117,19 +117,19 @@
       <label>How do you prefer to spend quality time with your partner?</label>
       <div class="input-container">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="watchingMovies" name="qualityTimePreferences" value="watchingMovies">
+          <input class="form-check-input" type="checkbox" id="watchingMovies" name="qualityTimePreferences" value="Watching Movies">
           <label class="form-check-label" for="watchingMovies">Watching Movies</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="goingForWalks" name="qualityTimePreferences" value="goingForWalks">
+          <input class="form-check-input" type="checkbox" id="goingForWalks" name="qualityTimePreferences" value="Going For Walks">
           <label class="form-check-label" for="goingForWalks">Going for Walks</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="cookingTogether" name="qualityTimePreferences" value="cookingTogether">
+          <input class="form-check-input" type="checkbox" id="cookingTogether" name="qualityTimePreferences" value="Cooking Together">
           <label class="form-check-label" for="cookingTogether">Cooking Together</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="traveling" name="qualityTimePreferences" value="traveling">
+          <input class="form-check-input" type="checkbox" id="traveling" name="qualityTimePreferences" value="Traveling">
           <label class="form-check-label" for="traveling">Traveling</label>
         </div>
       </div>
@@ -139,6 +139,14 @@
   <script>
     document.getElementById("loveLanguageForm").addEventListener("submit", function(event) {
       event.preventDefault();
+  
+      // Save form data to sessionStorage
+      sessionStorage.setItem("name", document.getElementById("name").value);
+      sessionStorage.setItem("showLove", document.querySelector('input[name="showLove"]:checked').value);
+      sessionStorage.setItem("preferredGift", document.getElementById("preferredGift").value);
+      sessionStorage.setItem("favoriteActivity", document.getElementById("favoriteActivity").value);
+  
+      // Redirect to results page
       window.location.href = "results.html";
     });
   </script>
