@@ -16,8 +16,8 @@
       background-color: beige;
     }
     h1 {
-  text-align: center;
-  padding: 20px;
+      text-align: center;
+      padding: 20px;
     }
 
     form {
@@ -65,7 +65,7 @@
     input[type="submit"]:hover {
       background-color: #45a049;
     }
-</style>
+  </style>
 </head>
 <body>
   <h1>Love Language Quiz</h1>
@@ -145,7 +145,14 @@
       sessionStorage.setItem("showLove", document.querySelector('input[name="showLove"]:checked').value);
       sessionStorage.setItem("preferredGift", document.getElementById("preferredGift").value);
       sessionStorage.setItem("favoriteActivity", document.getElementById("favoriteActivity").value);
-  
+
+      // Save checked quality time preferences
+      const checkedQualityTimePreferences = [];
+      document.querySelectorAll('input[name="qualityTimePreferences"]:checked').forEach((checkbox) => {
+        checkedQualityTimePreferences.push(checkbox.value);
+      });
+      sessionStorage.setItem("qualityTimePreferences", JSON.stringify(checkedQualityTimePreferences));
+
       // Redirect to results page
       window.location.href = "results.html";
     });
