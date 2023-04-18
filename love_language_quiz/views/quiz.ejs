@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Language Quiz</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+    /* your styles here */
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #F8E7E9;
+    }
+    h1 {
+      text-align: center;
+      padding: 20px;
+      color: #D94A69;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+
+    .question {
+      margin-bottom: 20px;
+    }
+
+    label {
+      margin-bottom: 5px;
+      color: #4a5568;
+      font-weight: 400;
+    }
+
+    .input-container {
+      margin-bottom: 5px;
+    }
+
+    .input-container input[type="radio"],
+    .input-container input[type="checkbox"] {
+      margin-right: 5px;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 5px;
+      margin-bottom: 10px;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+    }
+
+    input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #D94A69;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #B2344C;
+    }
+  </style>
+</head>
+<body>
+  <h1>Love Language Quiz</h1>
+  <form id="loveLanguageForm" action="/quiz" method="POST">
+    <div class="form-group question">
+      <label for="name">What's your name?</label>
+      <input type="text" id="name" name="name" class="form-control" required>
+    </div>
+    <div class="form-group question">
+      <label>What's your preferred way to show love?</label>
+      <div class="input-container">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="physicalTouch" name="showLove" value="Physical Touch" required>
+          <label class="form-check-label" for="physicalTouch">Physical Touch</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="wordsOfAffirmation" name="showLove" value="Words Of Affirmation">
+          <label class="form-check-label" for="wordsOfAffirmation">Words of Affirmation</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="qualityTime" name="showLove" value="Quality Time">
+          <label class="form-check-label" for="qualityTime">Quality Time</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="gifts" name="showLove" value="Gifts">
+          <label class="form-check-label" for="gifts">Gifts</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="actsOfService" name="showLove" value="Acts Of Service">
+          <label class="form-check-label" for="actsOfService">Acts of Service</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group question">
+      <label for="preferredGift">What type of gift do you prefer to receive?</label>
+        <select id="preferredGift" name="preferredGift" class="form-control" required>
+            <option value="">Select a gift type</option>
+            <option value="Practical">Practical</option>
+            <option value="Thoughtful">Thoughtful</option>
+            <option value="Expensive">Expensive</option>
+            <option value="Handmade">Handmade</option>
+        </select>
+    </div>
+    <div class="form-group question">
+        <label for="favoriteActivity">What's your favorite activity to do with your partner?</label>
+        <input type="text" id="favoriteActivity" name="favoriteActivity" class="form-control" required>
+    </div>
+    <div class="form-group question">
+        <label for="communicationPreference">How do you prefer to communicate with your partner?</label>
+        <select id="communicationPreference" name="communicationPreference" class="form-control" required>
+        <option value="">Select a communication preference</option>
+            <option value="Text">Text</option>
+            <option value="Call">Call</option>
+            <option value="Video Chat">Video Chat</option>
+            <option value="In Person">In Person</option>
+        </select>
+    </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+</body>
+</html>
