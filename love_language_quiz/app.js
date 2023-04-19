@@ -92,7 +92,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("login");
 });
 
 // Authentication routes
