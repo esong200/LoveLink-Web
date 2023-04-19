@@ -52,6 +52,19 @@
     <h2 style="text-align: center;">Welcome, <%= currentUser.username %></h2>
     <a href="/quiz">Take the Love Language Quiz</a>
     <a href="/logout">Logout</a>
+    <% if (mostRecentResult) { %>
+        <h2 style="text-align: center;">Your Most Recent Quiz Result:</h2>
+        <ul style="text-align: center;">
+            <strong>Partner Name:</strong> <%= mostRecentResult.name %> <br>
+            <strong>Show Love:</strong> <%= mostRecentResult.showLove %> <br>
+            <strong>Preferred Gift:</strong> <%= mostRecentResult.preferredGift %> <br>
+            <strong>Favorite Activity:</strong> <%= mostRecentResult.favoriteActivity %> <br>
+            <strong>Communication Preference:</strong> <%= mostRecentResult.communicationPreference %>
+        </ul>
+      <% } else { %>
+        <h3 style="text-align: center;">You haven't taken the quiz yet.</h3>
+      <% } %>
+    </body>
   </div>
 </body>
 </html>

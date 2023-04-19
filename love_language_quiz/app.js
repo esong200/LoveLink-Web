@@ -40,7 +40,7 @@ app.use(
     secret: "1234",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 60000 },
+    cookie: { maxAge: 6000000 },
   })
 );
 
@@ -120,8 +120,7 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
-app.post(
-  "/login",
+app.post("/login",
   passport.authenticate("local", {
     successRedirect: "/profile",
     failureRedirect: "/login",
@@ -150,40 +149,41 @@ app.get("/quiz", (req, res) => {
   }
 });
 
-app.get("/profile", (req, res) => {
-  if (req.isAuthenticated()) {
-    res.render("profile");
-  } else {
-    req.flash("error", "You must be logged in to access the user profile.");
-    res.redirect("/login");
-  }
-});
-
 app.post("/quiz", async (req, res) => {
   if (req.isAuthenticated()) {
     const quizResults = {
-      name: req.body.name,
-      showLove: req.body.showLove,
-      preferredGift: req.body.preferredGift,
-      favoriteActivity: req.body.favoriteActivity,
-      communicationPreference: req.body.communicationPreference,
+        name: req.body.name,
+        showLove: req.body.showLove,
+        preferredGift: req.body.preferredGift,
+        favoriteActivity: req.body.favoriteActivity,
+        communicationPreference: req.body.communicationPreference,
     };
     try {
       await User.updateOne(
         { _id: req.user._id },
         { $push: { quizResults: quizResults } }
       );
-      req.flash("success", "Quiz results saved successfully!");
-      res.redirect("/results");
+        req.flash("success", "Quiz results saved successfully!");
+        res.redirect("/results");
     } catch {
-      req.flash("error", "Failed to save quiz results. Please try again.");
-      res.redirect("/quiz");
+        req.flash("error", "Failed to save quiz results. Please try again.");
+        res.redirect("/quiz");
     }
   } else {
-    req.flash("error", "You must be logged in to submit quiz results.");
-    res.redirect("/login");
+        req.flash("error", "You must be logged in to submit quiz results.");
+        res.redirect("/login");
   }
 });
+
+app.get("/profile", (req, res) => {
+    if (req.isAuthenticated()) {
+      const mostRecentResult = req.user.quizResults.length > 0 ? req.user.quizResults[req.user.quizResults.length - 1] : null;
+      res.render("profile", { mostRecentResult: mostRecentResult });
+    } else {
+      req.flash("error", "You must be logged in to access the user profile.");
+      res.redirect("/login");
+    }
+  });
 
 app.get("/results", async (req, res) => {
   if (req.isAuthenticated()) {

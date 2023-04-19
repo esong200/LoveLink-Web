@@ -39,7 +39,7 @@
   <div class="results-container">
     <% var result = quizResults[quizResults.length - 1]; %>
       <div class="result">
-        <h3>Name: <%= result.name %></h3>
+        <h3>Partner's Name: <%= result.name %></h3>
       </div>
       <div class="result">
         <h3>Preferred way to show love: <%= result.showLove %></h3>
@@ -55,7 +55,8 @@
       </div>
   </div>  
   <div class="text-center">
-    <button onclick="location.href='/quiz'" class="btn btn-primary">Try Again</button>
+    <button onclick="location.href='/quiz'" class="btn btn-primary" style="background-color: #D94A69; color: white;">Try Again</button>
+    <button onclick="location.href='/profile'" class="btn btn-primary" style="background-color: #D94A69; color: white;">Return to Profile</button>
   </div>
 </body>
 </html>
