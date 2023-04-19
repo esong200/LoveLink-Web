@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Partner Search</title>
+  <!-- Add the necessary CSS and JS links here -->
+  <style>
+    .suggestions {
+      position: absolute;
+      display: none;
+    }
+  </style>
+  <script>
+    async function fetchSuggestions(input) {
+      const response = await fetch(`/searchSuggestions?input=${input}`);
+      const suggestions = await response.json();
+      return suggestions;
+    }
+
+    function displaySuggestions(suggestions) {
+      const suggestionsList = document.getElementById('suggestions');
+      suggestionsList.innerHTML = '';
+      suggestions.forEach(suggestion => {
+        const option = document.createElement('option');
+        option.value = suggestion;
+        suggestionsList.appendChild(option);
+      });
+      suggestionsList.style.display = 'block';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('partnerUsername');
+      searchInput.addEventListener('input', async (event) => {
+        const input = event.target.value;
+        if (input) {
+          const suggestions = await fetchSuggestions(input);
+          displaySuggestions(suggestions);
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  <h1>Partner Search</h1>
+  <form id="partnerSearchForm" action="/partnerSearch" method="POST">
+    <label for="partnerUsername">Partner Username:</label>
+    <input type="text" id="partnerUsername" name="partnerUsername" list="suggestions" autocomplete="off" required>
+    <datalist id="suggestions"></datalist>
+    <button type="submit">Set Partner</button>
+  </form>
+  <div>
+    <a href="/profile">Return to Profile</a>
+  </div>
+</body>
+</html>

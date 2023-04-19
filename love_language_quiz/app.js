@@ -19,18 +19,19 @@ mongoose.connect("mongodb://localhost:27017/loveLanguageQuiz", {
 
 // Define User schema and model
 const UserSchema = new mongoose.Schema({
-  username: String,
-  password: String,
-  quizResults: [
-    {
-      name: String,
-      showLove: String,
-      preferredGift: String,
-      favoriteActivity: String,
-      communicationPreference: String,
-    },
-  ],
-});
+    username: String,
+    password: String,
+    partner: String,
+    quizResults: [
+      {
+        name: String,
+        showLove: String,
+        preferredGift: String,
+        favoriteActivity: String,
+        communicationPreference: String,
+      },
+    ],
+  });
 
 const User = mongoose.model("User", UserSchema);
 
@@ -175,10 +176,17 @@ app.post("/quiz", async (req, res) => {
   }
 });
 
-app.get("/profile", (req, res) => {
+app.get("/profile", async (req, res) => {
     if (req.isAuthenticated()) {
       const mostRecentResult = req.user.quizResults.length > 0 ? req.user.quizResults[req.user.quizResults.length - 1] : null;
-      res.render("profile", { mostRecentResult: mostRecentResult });
+      let partnerResults = null;
+      if (req.user.partner) {
+        const partner = await User.findOne({ username: req.user.partner });
+        if (partner) {
+          partnerResults = partner.quizResults.length > 0 ? partner.quizResults[partner.quizResults.length - 1] : null;
+        }
+      }
+      res.render("profile", { mostRecentResult: mostRecentResult, partnerResults: partnerResults });
     } else {
       req.flash("error", "You must be logged in to access the user profile.");
       res.redirect("/login");
@@ -199,6 +207,51 @@ app.get("/results", async (req, res) => {
     res.redirect("/login");
   }
 });
+
+app.get('/partnerSearch', (req, res) => {
+    if (req.isAuthenticated()) {
+      res.render('partnerSearch');
+    } else {
+      req.flash('error', 'You must be logged in to search for a partner.');
+      res.redirect('/login');
+    }
+  });
+  
+  app.post('/partnerSearch', async (req, res) => {
+    if (req.isAuthenticated()) {
+      try {
+        const partner = await User.findOne({ username: req.body.partnerUsername });
+        if (partner) {
+          await User.updateOne({ _id: req.user._id }, { partner: partner.username });
+          req.flash('success', 'Partner updated successfully!');
+          res.redirect('/profile');
+        } else {
+          req.flash('error', 'Partner not found. Please try again.');
+          res.redirect('/partnerSearch');
+        }
+      } catch {
+        req.flash('error', 'Error searching for partner. Please try again.');
+        res.redirect('/partnerSearch');
+      }
+    } else {
+      req.flash('error', 'You must be logged in to search for a partner.');
+      res.redirect('/login');
+    }
+  });
+
+app.get('/searchSuggestions', async (req, res) => {
+    if (req.isAuthenticated()) {
+      const input = req.query.input;
+      if (input) {
+        const suggestions = await User.find({ username: { $regex: input, $options: 'i' } }).select('username').limit(5);
+        res.json(suggestions.map(suggestion => suggestion.username));
+      } else {
+        res.json([]);
+      }
+    } else {
+      res.status(401).json([]);
+    }
+  });
 
 // Start the server
 const PORT = process.env.PORT || 3000;

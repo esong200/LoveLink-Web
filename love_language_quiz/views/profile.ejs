@@ -50,6 +50,7 @@
   <h1>User Profile</h1>
   <div class="container">
     <h2 style="text-align: center;">Welcome, <%= currentUser.username %></h2>
+    <a href="/partnerSearch">Search for Partner</a>
     <a href="/quiz">Take the Love Language Quiz</a>
     <a href="/logout">Logout</a>
     <% if (mostRecentResult) { %>
@@ -62,7 +63,22 @@
             <strong>Communication Preference:</strong> <%= mostRecentResult.communicationPreference %>
         </ul>
       <% } else { %>
-        <h3 style="text-align: center;">You haven't taken the quiz yet.</h3>
+        <h3 style ="text-align: center;">You haven't taken the quiz yet.</h3>
+      <% } %>
+      <h2 style="text-align: center;">Current Partner: <%= currentUser.partner ? currentUser.partner : 'None' %></h2>
+      <% if (currentUser.partner) { %>
+        <% if (partnerResults) { %>
+          <h2 style="text-align: center;">Your Partner's Most Recent Quiz Result:</h2>
+          <ul style="text-align: center;">
+            <strong>Partner Name:</strong> <%= partnerResults.name %> <br>
+            <strong>Show Love:</strong> <%= partnerResults.showLove %> <br>
+            <strong>Preferred Gift:</strong> <%= partnerResults.preferredGift %> <br>
+            <strong>Favorite Activity:</strong> <%= partnerResults.favoriteActivity %> <br>
+            <strong>Communication Preference:</strong> <%= partnerResults.communicationPreference %>
+          </ul>
+        <% } else { %>
+          <h3 style ="text-align: center;">Your partner hasn't taken the quiz yet.</h3>
+        <% } %>
       <% } %>
     </body>
   </div>
