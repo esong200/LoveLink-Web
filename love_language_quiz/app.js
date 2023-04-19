@@ -123,7 +123,7 @@ app.get("/login", (req, res) => {
 app.post(
   "/login",
   passport.authenticate("local", {
-    successRedirect: "/quiz",
+    successRedirect: "/profile",
     failureRedirect: "/login",
     failureFlash: true,
   })
@@ -149,6 +149,15 @@ app.get("/quiz", (req, res) => {
         req.flash("error", "You must be logged in to access the quiz.");
         res.redirect("/login");
       }
+    });
+
+app.get("/profile", (req, res) => {
+    if (req.isAuthenticated()) {
+        res.render("profile");
+    } else {
+        req.flash("error", "You must be logged in to access the user profile.");
+        res.redirect("/login");
+    }
     });
 
 app.post("/quiz", async (req, res) => {
