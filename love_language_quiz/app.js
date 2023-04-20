@@ -19,6 +19,7 @@ mongoose.connect("mongodb://localhost:27017/loveLanguageQuiz", {
 
 // Define User schema and model
 const UserSchema = new mongoose.Schema({
+    name: String,
     username: String,
     password: String,
     partner: String,
@@ -104,7 +105,7 @@ app.get("/register", (req, res) => {
 app.post("/register", async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const newUser = new User({ username: req.body.username, password: hashedPassword });
+    const newUser = new User({ name: req.body.name, username: req.body.username, password: hashedPassword });
     await newUser.save();
     req.flash("success", "Registered successfully!");
     res.redirect("/login");

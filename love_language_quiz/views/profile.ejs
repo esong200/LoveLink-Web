@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Profile</title>
+  <title>LoveLink</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <style>
     body {
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Inter', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #F8E7E9;
+      background-color: #e9a9a9;
     }
     h1 {
       text-align: center;
       padding: 20px;
-      color: #D94A69;
+      color: #ffffff;
     }
     .container {
       max-width: 600px;
@@ -29,30 +29,28 @@
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
     }
-    a {
-      display: block;
+    button {
       width: 100%;
       padding: 10px;
-      background-color: #D94A69;
+      background-color: #cd6161;
       color: white;
-      text-align: center;
-      text-decoration: none;
-      border-radius: 5px;
+      border: none;
+      border-radius: 50px;
       cursor: pointer;
       margin-bottom: 10px;
     }
-    a:hover {
+    button:hover {
       background-color: #B2344C;
     }
   </style>
 </head>
 <body>
-  <h1>User Profile</h1>
+  <h1>LoveLink</h1>
   <div class="container">
-    <h2 style="text-align: center;">Welcome, <%= currentUser.username %></h2>
-    <a href="/partnerSearch">Search for Partner</a>
-    <a href="/quiz">Take the Love Language Quiz</a>
-    <a href="/logout">Logout</a>
+    <h2 style="text-align: center;">Welcome, <%= currentUser.name %></h2>
+    <button onclick="location.href='/partnerSearch';">Connect With your Partner</button>
+    <button onclick="location.href='/quiz';">Take the Love Language Quiz</button>
+    <button onclick="location.href='/logout';">Logout</button>
     <% if (mostRecentResult) { %>
         <h2 style="text-align: center;">Your Most Recent Quiz Result:</h2>
         <ul style="text-align: center;">

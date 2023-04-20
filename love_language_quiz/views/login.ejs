@@ -5,28 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <style>
     body {
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
       margin: 0;
       padding: 0;
-      background-color: #F8E7E9;
+      background-color: #ffffff;
     }
     h1 {
+      font-family: 'Inter', sans-serif;
       text-align: center;
+      font-weight: 500;
       padding: 20px;
-      color: #D94A69;
+      color: #000000;
     }
     form {
       max-width: 600px;
+      font-weight: 500;
       margin: 20px auto;
       padding: 20px;
       background-color: #ffffff;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      /*box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);*/
       border-radius: 10px;
     }
     label {
@@ -35,20 +39,25 @@
       font-weight: 400;
     }
     input[type="text"], input[type="password"] {
+      font-family: 'Inter', sans-serif;
       width: 100%;
       padding: 5px;
       margin-bottom: 10px;
       border: 1px solid #ced4da;
       border-radius: 5px;
+      background-color: #f6f6f6;
+      font-weight: 400;
     }
     input[type="submit"] {
+      font-family: 'Inter', sans-serif;
       width: 100%;
       padding: 10px;
-      background-color: #D94A69;
+      background-color: #cd6161;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 50px;
       cursor: pointer;
+      font-weight: 400;
     }
     input[type="submit"]:hover {
       background-color: #B2344C;
@@ -59,17 +68,15 @@
   <h1>Login</h1>
   <form id="loginForm" action="/login" method="POST">
     <div class="form-group">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" class="form-control" required>
+      <input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
     </div>
     <div class="form-group">
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" class="form-control" required>
+      <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
     </div>
     <input type="submit" value="Login" class="btn btn-primary">
   </form>
   <div class="text-center" style="margin-top: 20px;">
-    <p>Don't have an account? <a href="/register">Register</a></p>
+    <p>Don't have an account? <a href="/register">Sign Up</a></p>
   </div>
 </body>
 </html>
