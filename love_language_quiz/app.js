@@ -22,6 +22,7 @@ const UserSchema = new mongoose.Schema({
     name: String,
     username: String,
     password: String,
+    pin: Number,
     partner: String,
     quizResults: [
       {
@@ -103,18 +104,29 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const newUser = new User({ name: req.body.name, username: req.body.username, password: hashedPassword });
-    await newUser.save();
-    req.flash("success", "Registered successfully!");
-    res.redirect("/login");
-  } catch {
-    req.flash("error", "Registration failed. Please try again.");
-    res.redirect("/register");
-  }
-});
-
+    try {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  
+      // Generate a unique 6-digit pin
+      let pin;
+      let isUnique = false;
+      while (!isUnique) {
+        pin = Math.floor(100000 + Math.random() * 900000);
+        const existingUser = await User.findOne({ pin: pin });
+        if (!existingUser) {
+          isUnique = true;
+        }
+      }
+  
+      const newUser = new User({ name: req.body.name, username: req.body.username, password: hashedPassword, pin: pin });
+      await newUser.save();
+      req.flash("success", `Registered successfully! Your unique pin is ${pin}.`);
+      res.redirect("/login");
+    } catch {
+      req.flash("error", "Registration failed. Please try again.");
+      res.redirect("/register");
+    }
+  });
 app.get("/login", (req, res) => {
   if (req.query.loggedOut === "true") {
     req.flash("success", "Logged out successfully!");
@@ -218,41 +230,68 @@ app.get('/partnerSearch', (req, res) => {
     }
   });
   
-  app.post('/partnerSearch', async (req, res) => {
+  app.post("/partnerSearch", async (req, res) => {
     if (req.isAuthenticated()) {
       try {
         const partner = await User.findOne({ username: req.body.partnerUsername });
-        if (partner) {
-          await User.updateOne({ _id: req.user._id }, { partner: partner.username });
-          req.flash('success', 'Partner updated successfully!');
-          res.redirect('/profile');
-        } else {
-          req.flash('error', 'Partner not found. Please try again.');
-          res.redirect('/partnerSearch');
+        if (!partner) {
+          req.flash("error", "User not found.");
+          console.log("error", "User not found.");
+          return res.redirect("/partnerSearch");
         }
-      } catch {
-        req.flash('error', 'Error searching for partner. Please try again.');
-        res.redirect('/partnerSearch');
+        enteredPin = parseInt(req.body.partnerPin)
+        if (partner.pin !== enteredPin) {
+          req.flash("error",  "Incorrect partner's pin.");
+          console.log(typeof partner.pin);
+          console.log(typeof req.body.partnerPin);
+          return res.redirect("/partnerSearch");
+        }
+  
+        // Set the current user's partner field to the partner's username
+        req.user.partner = partner.username;
+        await req.user.save();
+  
+        // Set the partner's partner field to the current user's username
+        partner.partner = req.user.username;
+        await partner.save();
+  
+        req.flash("success", `You are now connected with ${partner.username}.`);
+        console.log("success", `You are now connected with ${partner.username}.`)
+        res.redirect("/profile");
+      } catch (error) {
+        req.flash("error", "An error occurred while searching for a partner.");
+        console.log("error", "An error occurred while searching for a partner.");
+        res.redirect("/partnerSearch");
       }
     } else {
-      req.flash('error', 'You must be logged in to search for a partner.');
-      res.redirect('/login');
+      req.flash("error", "You must be logged in to search for a partner.");
+      console.log("error", "You must be logged in to search for a partner.");
+      res.redirect("/login");
     }
   });
 
-app.get('/searchSuggestions', async (req, res) => {
+    app.get('/searchSuggestions', async (req, res) => {
+        if (req.isAuthenticated()) {
+        const input = req.query.input;
+        if (input) {
+            const suggestions = await User.find({ username: { $regex: input, $options: 'i' } }).select('username').limit(5);
+            res.json(suggestions.map(suggestion => suggestion.username));
+        } else {
+            res.json([]);
+        }
+        } else {
+        res.status(401).json([]);
+        }
+    });
+
+    app.get("/pin", (req, res) => {
     if (req.isAuthenticated()) {
-      const input = req.query.input;
-      if (input) {
-        const suggestions = await User.find({ username: { $regex: input, $options: 'i' } }).select('username').limit(5);
-        res.json(suggestions.map(suggestion => suggestion.username));
-      } else {
-        res.json([]);
-      }
+        res.render("pin");
     } else {
-      res.status(401).json([]);
+        req.flash("error", "You must be logged in to view your pin.");
+        res.redirect("/login");
     }
-  });
+    });
 
 // Start the server
 const PORT = process.env.PORT || 3000;
