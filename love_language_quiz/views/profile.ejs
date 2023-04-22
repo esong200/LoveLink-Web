@@ -18,8 +18,9 @@
     }
     h1 {
       text-align: center;
-      padding: 20px;
+      padding: 10px;
       color: #ffffff;
+      padding-bottom: 0px;
     }
     .container {
       max-width: 600px;
@@ -45,7 +46,25 @@
   </style>
 </head>
 <body>
+    <script>
+        window.onload = function() {           
+            console.log('loaded');
+            document.getElementById("compile-results-btn").addEventListener("click", async () => {
+                window.location.href = "/compiledQuizResults";
+            });
+        }
+        </script>
   <h1>LoveLink</h1>
+  <% if (error) { %>
+    <div class="alert text-center" role="alert" style="background-color: #e9a9a9; color: #ffffff;">
+      <%= error %>
+    </div>
+  <% } %>
+  <% if (success) { %>
+    <div class="alert text-center" role="alert" style="background-color: #e9a9a9; color: #ffffff;">
+      <%= success %>
+    </div>
+  <% } %>
   <div class="container">
     <h2 style="text-align: center;">Welcome, <%= currentUser.name %></h2>
     <button onclick="location.href='/pin';">View Your Pin</button>
@@ -75,9 +94,17 @@
             <strong>Favorite Activity:</strong> <%= partnerResults.favoriteActivity %> <br>
             <strong>Communication Preference:</strong> <%= partnerResults.communicationPreference %>
           </ul>
+          <div id="quizResultsOutput">
+            <label id = 'compiledQuizResultsLabel'><%= compiledResults %></label>
+            <label id = 'chatGPTOutputLabel'>Your Compatibility report:</label>
+            <label id = 'chatGPTOutput'><%= compatibilityReport %></label>
+          </div>
         <% } else { %>
           <h3 style ="text-align: center;">Your partner hasn't taken the quiz yet.</h3>
         <% } %>
+      <% } %>
+      <% if (currentUser.partner && mostRecentResult && partnerResults) { %>
+        <button id="compile-results-btn">Compile Quiz Results</button>
       <% } %>
     </body>
   </div>

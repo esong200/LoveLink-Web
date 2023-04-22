@@ -8,8 +8,14 @@ const bcrypt = require("bcryptjs");
 
 const app = express();
 const path = require("path");
+const openai = require("openai");
+const axios = require("axios");
 app.use(express.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
+
+
+// Set up openai key
+openai.apiKey = "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";
 
 // Connect to MongoDB
 mongoose.connect("mongodb://localhost:27017/loveLanguageQuiz", {
@@ -199,10 +205,105 @@ app.get("/profile", async (req, res) => {
           partnerResults = partner.quizResults.length > 0 ? partner.quizResults[partner.quizResults.length - 1] : null;
         }
       }
-      res.render("profile", { mostRecentResult: mostRecentResult, partnerResults: partnerResults });
+      res.render("profile", 
+      { mostRecentResult: mostRecentResult, 
+        partnerResults: partnerResults, 
+        compiledResults: compiledResults, 
+        compatibilityReport: compatibilityReport });
     } else {
       req.flash("error", "You must be logged in to access the user profile.");
       res.redirect("/login");
+    }
+  });
+
+  // Helper function to compile quiz results into string
+  let compiledResults = "Quiz summaries will appear here";
+  let compatibilityReport = "Analysis will appear here";
+
+  function getCompiledQuizResults(userResults, partnerResults) {
+    return `Partner 1 (${userResults.name}) 
+    shows love through ${userResults.showLove}, 
+    prefers to receive ${userResults.preferredGift} gifts, 
+    enjoys activities such as ${userResults.favoriteActivity}, 
+    and communicates best through ${userResults.communicationPreference}. 
+    Partner 2 (${partnerResults.name})
+    shows love through ${partnerResults.showLove}, 
+    prefers to receive ${partnerResults.preferredGift} gifts, 
+    enjoys activities such as ${partnerResults.favoriteActivity}, 
+    and communicates best through ${partnerResults.communicationPreference}.`;
+  }
+
+  async function getCompatibilityReport(prompt) {
+    // try {
+    //   const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'Authorization': `Bearer ${openai.apiKey}`,
+    //     },
+    //     body: JSON.stringify({
+    //         model: "gpt-3.5-turbo",
+    //       prompt: "Hi there!",
+    //       max_tokens: 100,
+    //       n: 1,
+    //       temperature: 0.5,
+    //     }),
+    //   });
+    //   console.log('responded!');
+    //   const responseData = await response.json();
+    //   console.log(responseData);
+    //   if (responseData && responseData.choices && responseData.choices.length > 0) {
+    //     return responseData.choices[0].text.trim();
+    //   } else {
+    //     return "Error: No response from ChatGPT";
+    //   }
+    // } catch (error) {
+    //   console.error("Error querying ChatGPT:", error);
+    //   return "Error: Unable to get a compatibility report from ChatGPT";
+    // }
+    return 'You two have a high compatibility rating!';
+  }
+
+// Update the /compiledQuizResults route in app.js
+app.get("/compiledQuizResults", async (req, res) => {
+    console.log('yay');
+    if (req.isAuthenticated()) {
+      if (req.user.partner) {
+        const partner = await User.findOne({ username: req.user.partner });
+        if (partner) {
+          const mostRecentResult = req.user.quizResults.length > 0 ? req.user.quizResults[req.user.quizResults.length - 1] : null;
+          const partnerResults = partner.quizResults.length > 0 ? partner.quizResults[partner.quizResults.length - 1] : null;
+  
+          if (mostRecentResult && partnerResults) {
+            compiledResults = getCompiledQuizResults(mostRecentResult, partnerResults);
+
+            // Ask ChatGPT!
+            const chatGptPrompt = `Hey chatgpt, give a compatibility report of these two partners: ${compiledResults}`;
+            console.log(chatGptPrompt);
+            compatibilityReport = await getCompatibilityReport(chatGptPrompt);
+
+            req.flash("success", "Compiled quiz results string has been updated.");
+            console.log("success");
+            res.redirect("/profile");
+          } else {
+            req.flash("error", "Both partners must have taken the quiz.");
+            res.redirect("/profile");
+            console.log("error");
+          }
+        } else {
+          req.flash("error", "Partner not found.");
+          res.redirect("/profile");
+          console.log("error");
+        }
+      } else {
+        req.flash("error", "You must have a partner to get compiled quiz results.");
+        res.redirect("/profile");
+        console.log("error");
+      }
+    } else {
+      req.flash("error", "You must be logged in to access this feature.");
+      res.redirect("/login");
+      console.log("error");
     }
   });
 
