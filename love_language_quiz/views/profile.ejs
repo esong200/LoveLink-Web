@@ -43,6 +43,23 @@
     button:hover {
       background-color: #B2344C;
     }
+
+    button.logout {
+      position: absolute;
+      top: 10px;
+      left: 5px;
+      width: 80px;
+      padding: 5px;
+      font-size: 14px;
+      background-color: #e9a9a9;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+    }
+    button.logout:hover {
+      background-color: #B2344C;
+    }
   </style>
 </head>
 <body>
@@ -70,7 +87,7 @@
     <button onclick="location.href='/pin';">View Your Pin</button>
     <button onclick="location.href='/partnerSearch';">Connect With your Partner</button>
     <button onclick="location.href='/quiz';">Take the Love Language Quiz</button>
-    <button onclick="location.href='/logout';">Logout</button>
+    <button class="logout" onclick="location.href='/logout';">Logout</button>
     <% if (mostRecentResult) { %>
         <h2 style="text-align: center;">Your Most Recent Quiz Result:</h2>
         <ul style="text-align: center;">

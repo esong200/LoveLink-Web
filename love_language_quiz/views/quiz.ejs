@@ -10,19 +10,18 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <style>
-    /* your styles here */
     body {
       font-family: 'Inter', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #F8E7E9;
+      background-color: #e9a9a9;
     }
     h1 {
       text-align: center;
-      padding: 20px;
-      color: #D94A69;
+      padding: 10px;
+      color: #ffffff;
+      padding-bottom: 0px;
     }
-
     form {
       max-width: 600px;
       margin: 20px auto;
@@ -31,26 +30,21 @@
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
     }
-
     .question {
       margin-bottom: 20px;
     }
-
     label {
       margin-bottom: 5px;
       color: #4a5568;
       font-weight: 400;
     }
-
     .input-container {
       margin-bottom: 5px;
     }
-
     .input-container input[type="radio"],
     .input-container input[type="checkbox"] {
       margin-right: 5px;
     }
-
     input[type="text"], select {
       width: 100%;
       padding: 5px;
@@ -58,18 +52,17 @@
       border: 1px solid #ced4da;
       border-radius: 5px;
     }
-
-    input[type="submit"] {
+    button, input[type="submit"] {
       width: 100%;
       padding: 10px;
-      background-color: #D94A69;
+      background-color: #cd6161;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 50px;
       cursor: pointer;
+      margin-bottom: 10px;
     }
-
-    input[type="submit"]:hover {
+    button:hover, input[type="submit"]:hover {
       background-color: #B2344C;
     }
   </style>
@@ -130,11 +123,10 @@
             <option value="In Person">In Person</option>
         </select>
     </div>
-        <div class="text-center">
-            <!-- Add a button to return to the user profile -->
-            <a href="/profile" style="background-color: #D94A69; color: white; padding: 10px; border-radius: 5px; text-decoration: none; margin-right: 10px;">Return to Profile</a>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
+    <div class="text-center">
+        <a href="/profile" class="btn">Return to Profile</a>
+        <input type="submit" value="Submit">
+      </div>
         </form>
 </body>
 </html>
