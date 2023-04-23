@@ -10,7 +10,10 @@ const app = express();
 const path = require("path");
 const openai = require("openai");
 const axios = require("axios");
+const bodyParser = require('body-parser');
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 
 
@@ -24,6 +27,13 @@ mongoose.connect("mongodb://localhost:27017/loveLanguageQuiz", {
 });
 
 // Define User schema and model
+
+const NudgeSchema = new mongoose.Schema({
+    message: String,
+    timestamp: Date,
+  });
+
+
 const UserSchema = new mongoose.Schema({
     name: String,
     username: String,
@@ -39,9 +49,13 @@ const UserSchema = new mongoose.Schema({
         communicationPreference: String,
       },
     ],
+
+    nudgeInbox: [NudgeSchema],
+    nudgeOutbox: [NudgeSchema],
   });
 
 const User = mongoose.model("User", UserSchema);
+const Nudge = mongoose.model("Nudge", NudgeSchema);
 
 // Configure passport and session
 app.use(
@@ -234,34 +248,34 @@ app.get("/profile", async (req, res) => {
   }
 
   async function getCompatibilityReport(prompt) {
-    // try {
-    //   const response = await fetch('https://api.openai.com/v1/chat/completions', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'Authorization': `Bearer ${openai.apiKey}`,
-    //     },
-    //     body: JSON.stringify({
-    //         model: "gpt-3.5-turbo",
-    //       prompt: "Hi there!",
-    //       max_tokens: 100,
-    //       n: 1,
-    //       temperature: 0.5,
-    //     }),
-    //   });
-    //   console.log('responded!');
-    //   const responseData = await response.json();
-    //   console.log(responseData);
-    //   if (responseData && responseData.choices && responseData.choices.length > 0) {
-    //     return responseData.choices[0].text.trim();
-    //   } else {
-    //     return "Error: No response from ChatGPT";
-    //   }
-    // } catch (error) {
-    //   console.error("Error querying ChatGPT:", error);
-    //   return "Error: Unable to get a compatibility report from ChatGPT";
-    // }
-    return 'You two have a high compatibility rating!';
+    try {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${openai.apiKey}`,
+        },
+        body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+          prompt: "Hi there!",
+          max_tokens: 100,
+          n: 1,
+          temperature: 0.5,
+        }),
+      });
+      console.log('responded!');
+      const responseData = await response.json();
+      console.log(responseData);
+      if (responseData && responseData.choices && responseData.choices.length > 0) {
+        return responseData.choices[0].text.trim();
+      } else {
+        return "Error: No response from ChatGPT";
+      }
+    } catch (error) {
+      console.error("Error querying ChatGPT:", error);
+      return "Error: Unable to get a compatibility report from ChatGPT";
+    }
+    //return 'You two have a high compatibility rating!';
   }
 
 // Update the /compiledQuizResults route in app.js
@@ -282,7 +296,7 @@ app.get("/compiledQuizResults", async (req, res) => {
             console.log(chatGptPrompt);
             compatibilityReport = await getCompatibilityReport(chatGptPrompt);
 
-            req.flash("success", "Compiled quiz results string has been updated.");
+            req.flash("success", "Compiled quiz results have been updated.");
             console.log("success");
             res.redirect("/profile");
           } else {
@@ -393,6 +407,46 @@ app.get('/partnerSearch', (req, res) => {
         res.redirect("/login");
     }
     });
+
+// Send Nudge route
+app.get("/sendNudge", (req, res) => {
+    if (req.isAuthenticated()) {
+      res.render("sendNudge");
+    } else {
+      req.flash("error", "You must be logged in to send a nudge.");
+      res.redirect("/login");
+    }
+  });
+  
+  app.post("/sendNudge", async (req, res) => {
+    const message = req.body.nudgeMessage;
+    if (req.isAuthenticated()) {
+        console.log(message);
+      const nudge = new Nudge({
+        message: message,
+        timestamp: new Date(),
+      });
+  
+      // Save nudge to sender's outbox
+      req.user.nudgeOutbox.push(nudge);
+      await req.user.save();
+  
+      // Save nudge to receiver's inbox (assumes req.user.partner exists)
+      const partner = await User.findOne({ username: req.user.partner });
+      if (partner) {
+        console.log(nudge);
+        partner.nudgeInbox.push({ ...nudge.toObject(), incoming: true });
+        await partner.save();
+        req.flash("success", "Nudge sent successfully!");
+      } else {
+        req.flash("error", "Failed to send nudge. Partner not found.");
+      }
+      res.redirect("/profile");
+    } else {
+      req.flash("error", "You must be logged in to send a nudge.");
+      res.redirect("/login");
+    }
+  });
 
 // Start the server
 const PORT = process.env.PORT || 3000;
