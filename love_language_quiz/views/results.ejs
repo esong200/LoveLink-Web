@@ -14,12 +14,13 @@
       font-family: 'Inter', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #F8E7E9;
+      background-color: #e9a9a9;
     }
     h1 {
       text-align: center;
-      padding: 20px;
-      color: #D94A69;
+      padding: 10px;
+      color: #ffffff;
+      padding-bottom: 0px;
     }
     .results-container {
       max-width: 600px;
@@ -32,6 +33,27 @@
     .result {
       margin-bottom: 20px;
     }
+    label {
+      margin-bottom: 5px;
+      color: #4a5568;
+      font-weight: 400;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #cd6161;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    button:hover {
+      background-color: #B2344C;
+    }
+    .text-center {
+      margin: 20px 0;
+    }
   </style>
 </head>
 <body>
@@ -39,24 +61,25 @@
   <div class="results-container">
     <% var result = quizResults[quizResults.length - 1]; %>
       <div class="result">
-        <h3>Partner's Name: <%= result.name %></h3>
+        <label>Partner's Name: <%= result.name %></label>
       </div>
       <div class="result">
-        <h3>Preferred way to show love: <%= result.showLove %></h3>
+        <label>Preferred way to show love: <%= result.showLove %></label>
       </div>
       <div class="result">
-        <h3>Preferred gift: <%= result.preferredGift %></h3>
+        <label>Preferred gift: <%= result.preferredGift %></label>
       </div>
       <div class="result">
-        <h3>Favorite activity: <%= result.favoriteActivity %></h3>
+        <label>Favorite activity: <%= result.favoriteActivity %></label>
       </div>
       <div class="result">
-        <h3>Communication preference: <%= result.communicationPreference %></h3>
+        <label>Communication preference: <%= result.communicationPreference %></label>
+      </div>
+      <div class="text-center">
+        <button onclick="location.href='/quiz'">Try Again</button>
+        <button onclick="location.href='/profile'">Return to Profile</button>
       </div>
   </div>  
-  <div class="text-center">
-    <button onclick="location.href='/quiz'" class="btn btn-primary" style="background-color: #D94A69; color: white;">Try Again</button>
-    <button onclick="location.href='/profile'" class="btn btn-primary" style="background-color: #D94A69; color: white;">Return to Profile</button>
-  </div>
+
 </body>
 </html>
