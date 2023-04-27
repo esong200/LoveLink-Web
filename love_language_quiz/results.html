@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <canvas id="resultsChart"></canvas>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Results Page</title>
@@ -8,6 +9,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!--<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
   <style>
     body {
       font-family: 'Roboto', sans-serif;
@@ -58,28 +60,63 @@
   </style>
 </head>
 <body>
-    <h1>Quiz Results</h1>
-    <div class="results-container">
-      <!-- Quiz results will be displayed here -->
-    </div>
-    <div class="button-container">
-      <a href="quiz_prototype.HTML" class="btn btn-primary">Try Again</a>
-    </div>
+  <h1>Quiz Results</h1>
+  <div class="results-container">
+    <h2 id="userName"></h2>
+    <h3 id="resultHeader">Your Top Love Language Is:</h3>
+    <h3 id="resultLoveLanguage"></h3>
+    <canvas id="resultsChart"></canvas>
+    
+  </div>
+  <div class="button-container">
+    <a href="quiz_prototype.HTML" class="btn btn-primary">Try Again</a>
+  </div>
 
   <script>
-    // Get quiz results from sessionStorage
-    const name = sessionStorage.getItem("name");
-    const showLove = sessionStorage.getItem("showLove");
-    const preferredGift = sessionStorage.getItem("preferredGift");
-    const favoriteActivity = sessionStorage.getItem("favoriteActivity");
+    document.getElementById("userName").textContent = "Hello, " + sessionStorage.getItem("name") + "!";      
+    document.getElementById("resultLoveLanguage").textContent = sessionStorage.getItem("topLoveLanguage");
+    const loveLanguages = {
+    PhysicalTouch: sessionStorage.getItem("PhysicalTouch") || 0,
+    WordsofAffirmation: sessionStorage.getItem("WordsofAffirmation") || 0,
+    QualityTime: sessionStorage.getItem("QualityTime") || 0,
+    GiftGiving: sessionStorage.getItem("GiftGiving") || 0,
+    ActsofService: sessionStorage.getItem("ActsofService") || 0,
+  };
 
-    // Display quiz results
-    document.querySelector(".results-container").innerHTML = `
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Preferred way to show love:</strong> ${showLove}</p>
-      <p><strong>Preferred gift:</strong> ${preferredGift}</p>
-      <p><strong>Favorite activity:</strong> ${favoriteActivity}</p>
-    `;
+  const ctx = document.getElementById("resultsChart").getContext("2d");
+  const chart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["Physical Touch", "Words of Affirmation", "Quality Time", "Gifts", "Acts of Service"],
+      datasets: [{
+        label: "Love Language Scores",
+        data: Object.values(loveLanguages),
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+          "rgba(75, 192, 192, 0.2)",
+          "rgba(153, 102, 255, 0.2)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+        ],
+        borderWidth: 1,
+      }],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: Math.max(...Object.values(loveLanguages)) + 1,
+        },
+      },
+    },
+  });
   </script>
 </body>
 </html>

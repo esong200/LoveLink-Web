@@ -453,3 +453,55 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server is running on port ${PORT}`);
   });
+  
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById("loveLanguageForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+    
+      // Save form data to sessionStorage
+      sessionStorage.setItem("name", document.getElementById("name").value);
+    
+      // Assign scores to each answer
+      const loveLanguages = {
+        "Physical Touch": 0,
+        "Words Of Affirmation": 0,
+        "Quality Time": 0,
+        "Gifts": 0,
+        "Acts Of Service": 0
+      };
+    
+      const scores = {
+        "Physical Touch": [1, 3, 5],
+        "Words Of Affirmation": [2, 4],
+        "Quality Time": [6, 7],
+        "Gifts": [8],
+        "Acts Of Service": [9]
+      };
+    
+      // Calculate total score for each love language based on selected answers
+      document.querySelectorAll('input[name="showLove"]:checked').forEach((radio) => {
+        const loveLanguage = radio.value;
+        scores[loveLanguage].forEach((score) => {
+          loveLanguages[loveLanguage] += score;
+        });
+      });
+    
+      // Save total score for each love language to sessionStorage
+      sessionStorage.setItem("loveLanguages", JSON.stringify(loveLanguages));
+    
+      sessionStorage.setItem("preferredGift", document.getElementById("preferredGift").value);
+      sessionStorage.setItem("favoriteActivity", document.getElementById("favoriteActivity").value);
+    
+      // Save checked quality time preferences
+      const checkedQualityTimePreferences = [];
+      document.querySelectorAll('input[name="qualityTimePreferences"]:checked').forEach((checkbox) => {
+        checkedQualityTimePreferences.push(checkbox.value);
+      });
+      sessionStorage.setItem("qualityTimePreferences", JSON.stringify(checkedQualityTimePreferences));
+    
+      // Redirect to results page
+      window.location.href = "results.html";
+    });
+    
+  });
+  

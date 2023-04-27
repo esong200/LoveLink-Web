@@ -75,7 +75,7 @@
 </head>
 <body>
   <h1>Love Language Quiz</h1>
-  <form id="loveLanguageForm" action="results.html">
+  <form id="loveLanguageForm" onsubmit = "processResults(event)">
     <div class="form-group question">
       <label for="name">What's your name?</label>
       <input type="text" id="name" name="name" class="form-control" required>
@@ -84,62 +84,169 @@
       <label>What's your preferred way to show love?</label>
       <div class="input-container">
         <div class="form-check">
-          <input class="form-check-input" type="radio" id="physicalTouch" name="showLove" value="Physical Touch" required>
+          <input class="form-check-input" type="radio" id="physicalTouch" name="showLove" value="PhysicalTouch" required>
           <label class="form-check-label" for="physicalTouch">Physical Touch</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" id="wordsOfAffirmation" name="showLove" value="Words Of Affirmation">
+          <input class="form-check-input" type="radio" id="wordsOfAffirmation" name="showLove" value="WordsofAffirmation">
           <label class="form-check-label" for="wordsOfAffirmation">Words of Affirmation</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" id="qualityTime" name="showLove" value="Quality Time">
+          <input class="form-check-input" type="radio" id="qualityTime" name="showLove" value="QualityTime">
           <label class="form-check-label" for="qualityTime">Quality Time</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" id="gifts" name="showLove" value="Gifts">
+          <input class="form-check-input" type="radio" id="gifts" name="showLove" value= "GiftGiving>
           <label class="form-check-label" for="gifts">Gifts</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" id="actsOfService" name="showLove" value="Acts Of Service">
+          <input class="form-check-input" type="radio" id="actsOfService" name="showLove" value="ActsofService">
           <label class="form-check-label" for="actsOfService">Acts of Service</label>
         </div>
       </div>
     </div>
     <div class="form-group question">
-      <label for="preferredGift">What type of gift do you prefer to receive?</label>
-      <select id="preferredGift" name="preferredGift" class="form-control" required>
-        <option value="">Select a gift type</option>
-        <option value="Practical">Practical</option>
-        <option value="Thoughtful">Thoughtful</option>
-        <option value="Expensive">Expensive</option>
-        <option value="Handmade">Handmade</option>
-      </select>
-    </div>
-    <div class="form-group question">
-      <label for="favoriteActivity">What's your favorite activity to do with your partner?</label>
-      <input type="text" id="favoriteActivity" name="favoriteActivity" class="form-control" required>
-    </div>
-    <div class="form-group question">
-      <label>How do you prefer to spend quality time with your partner?</label>
+      <label>How do you prefer to receive compliments?</label>
       <div class="input-container">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="watchingMovies" name="qualityTimePreferences" value="Watching Movies">
-          <label class="form-check-label" for="watchingMovies">Watching Movies</label>
+          <input class="form-check-input" type="radio" id="written" name="compliments" value= "GiftGiving" required>
+          <label class="form-check-label" for="written">Written</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="goingForWalks" name="qualityTimePreferences" value="Going For Walks">
-          <label class="form-check-label" for="goingForWalks">Going for Walks</label>
+          <input class="form-check-input" type="radio" id="verbal" name="compliments" value="WordsofAffirmation">
+          <label class="form-check-label" for="verbal">Verbal</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="cookingTogether" name="qualityTimePreferences" value="Cooking Together">
-          <label class="form-check-label" for="cookingTogether">Cooking Together</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="traveling" name="qualityTimePreferences" value="Traveling">
-          <label class="form-check-label" for="traveling">Traveling</label>
+          <input class="form-check-input" type="radio" id="nonverbal" name="compliments" value="QualityTime">
+          <label class="form-check-label" for="nonverbal">Non-verbal</label>
         </div>
       </div>
     </div>
+    <div class="form-group question">
+      <label>What's most important to you in a relationship?</label>
+      <div class="input-container">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="communication" name="relationship" value="Communication" required>
+          <label class="form-check-label" for="communication">Communication</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="trust" name="relationship" value="Trust">
+          <label class="form-check-label" for="trust">Trust</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="support" name="relationship" value="Support">
+          <label class="form-check-label" for="support">Support</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="compatibility" name="relationship" value="Compatibility">
+          <label class="form-check-label" for="compatibility">Compatibility</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group question">
+      <label>How do you prefer to spend your free time with your partner?</label>
+      <div class="input-container">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="adventure" name="freeTime" value="QualityTime" required>
+          <label class="form-check-label" for="adventure">Adventure</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="relaxing" name="freeTime" value="WordsofAffirmation">
+          <label class="form-check-label" for="relaxing">Relaxing</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="intellectual" name="freeTime" value="PhysicalTouch">
+          <label class="form-check-label" for="intellectual">Intellectual</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group question">
+      <label>What makes you feel the most loved?</label>
+      <div class="input-container">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="kindWords" name="feelLoved" value="WordsofAffirmation" required>
+          <label class="form-check-label" for="kindWords">Kind Words</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="thoughtfulActions" name="feelLoved" value="ActsofService">
+          <label class="form-check-label" for="thoughtfulActions">Thoughtful Actions</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="spendingTime" name="feelLoved" value="QualityTime">
+          <label class="form-check-label" for="spendingTime">Spending Time</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="physicalAffection" name="feelLoved" value="PhysicalTouch">
+          <label class="form-check-label" for="physicalAffection">Physical Affection</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group question">
+      <label>Which of these gestures would you appreciate the most from your partner?</label>
+      <div class="input-container">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="surpriseGift" name="gestures" value= "GiftGiving" required>
+          <label class="form-check-label" for="surpriseGift">Surprise Gift</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="helpWithChores" name="gestures" value="ActsofService">
+          <label class="form-check-label" for="helpWithChores">Help With Chores</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="heartfeltNote" name="gestures" value="WordsofAffirmation">
+          <label class="form-check-label" for="heartfeltNote">Heartfelt Note</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="undividedAttention" name="gestures" value="QualityTime">
+          <label class="form-check-label" for="undividedAttention">Undivided Attention</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group question">
+      <label>What would make you feel most appreciated by your partner?</label>
+      <div class="input-container">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="appreciationWords" name="appreciated" value="WordsofAffirmation" required>
+          <label class="form-check-label" for="appreciationWords">Appreciation Words</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="unexpectedHelp" name="appreciated" value="ActsofService">
+          <label class="form-check-label" for="unexpectedHelp">Unexpected Help</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="qualityTimeTogether" name="appreciated" value="QualityTime">
+          <label class="form-check-label" for="qualityTimeTogether">Quality Time Together</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="smallSurprises" name="appreciated" value= "GiftGiving">
+          <label class="form-check-label" for="smallSurprises">Small Surprises</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group question">
+      <label>What is your ideal way to resolve conflicts with your partner?</label>
+      <div class="input-container">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="openConversation" name="conflictResolution" value="Open Conversation" required>
+          <label class="form-check-label" for="openConversation">Open Conversation</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="coolingOffPeriod" name="conflictResolution" value="Cooling Off Period">
+          <label class="form-check-label" for="coolingOffPeriod">Cooling Off Period</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="seekingAdvice" name="conflictResolution" value="Seeking Advice">
+          <label class="form-check-label" for="seekingAdvice">Seeking Advice</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="compromise" name="conflictResolution" value="Compromise">
+          <label class="form-check-label" for="compromise">Compromise</label>
+        </div>
+      </div>
+    </div>
+    
+    
+    
     <input type="submit" value="Submit" class="btn btn-primary">
   </form>
   <script>
@@ -165,3 +272,38 @@
   </script>
 </body>
 </html>
+<script>
+  function processResults(event) {
+    event.preventDefault(); // Prevent the form from submitting and refreshing the page
+
+    const loveLanguages = {
+      PhysicalTouch: 0,
+      WordsofAffirmation: 0,
+      QualityTime: 0,
+      GiftGiving: 0,
+      ActsofService: 0
+    };
+    
+
+    const formData = new FormData(event.target);
+
+    for (const value of formData.values()) {
+      loveLanguages[value]++;
+    }
+
+    const sortedLanguages = Object.entries(loveLanguages).sort((a, b) => b[1] - a[1]);
+    const topLoveLanguage = sortedLanguages[0][0];
+
+    // Save the results and the user's name in the sessionStorage
+    sessionStorage.setItem("PhysicalTouch", loveLanguages.PhysicalTouch);
+    sessionStorage.setItem("WordsofAffirmation", loveLanguages.WordsofAffirmation);
+    sessionStorage.setItem("QualityTime", loveLanguages.QualityTime);
+    sessionStorage.setItem("GiftGiving", loveLanguages.GiftGiving);
+    sessionStorage.setItem("ActsofService", loveLanguages.ActsofService);
+    sessionStorage.setItem("topLoveLanguage", topLoveLanguage);
+    sessionStorage.setItem("name", formData.get("name"));
+
+    // Redirect to the results.html page
+    window.location.href = "results.html";
+  }
+</script>
