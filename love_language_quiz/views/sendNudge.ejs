@@ -47,14 +47,13 @@
 <body>
   <h1>LoveLink</h1>
   <div class="container">
-    <h2 style="text-align: center;">Send a Nudge</h2>
+    <h2 style="text-align: center;">Compose</h2>
     <form action="/sendNudge" method="POST">
 
       <div class="form-group">
-        <label for="nudgeMessage">Message:</label>
-        <textarea class="form-control" id="nudgeMessage" name="nudgeMessage" rows="4" required></textarea>
+        <textarea class="form-control" id="nudgeMessage" name="nudgeMessage" rows="4" required placeholder="Enter a message"></textarea>
       </div>
-      <button type="submit">Send Nudge</button>
+      <button type="submit">Send</button>
     </form>
     <button onclick="location.href='/profile';">Back to Profile</button>
   </div>

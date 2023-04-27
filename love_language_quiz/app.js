@@ -16,6 +16,16 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 
+// Google Firebase initialization
+const admin = require('firebase-admin');
+const serviceAccount = require('./lovelink-cs160-firebase-adminsdk-4x5ds-08996f4c48.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://lovelink-cs160-default-rtdb.firebaseio.com"
+});
+
+
 
 // Set up openai key
 openai.apiKey = "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";
@@ -49,6 +59,11 @@ const UserSchema = new mongoose.Schema({
         communicationPreference: String,
       },
     ],
+
+    deviceToken: {
+        type: String,
+        default: null,
+    },
 
     nudgeInbox: [NudgeSchema],
     nudgeOutbox: [NudgeSchema],
@@ -140,27 +155,49 @@ app.post("/register", async (req, res) => {
   
       const newUser = new User({ name: req.body.name, username: req.body.username, password: hashedPassword, pin: pin });
       await newUser.save();
-      req.flash("success", `Registered successfully! Your unique pin is ${pin}.`);
+      req.flash("success", `Registered successfully!`);
       res.redirect("/login");
     } catch {
       req.flash("error", "Registration failed. Please try again.");
       res.redirect("/register");
     }
   });
-app.get("/login", (req, res) => {
+app.get("/login", async (req, res) => {
   if (req.query.loggedOut === "true") {
     req.flash("success", "Logged out successfully!");
   }
+//   user.deviceToken = req.body.deviceToken;
+//   await user.save();
   res.render("login");
 });
 
-app.post("/login",
-  passport.authenticate("local", {
-    successRedirect: "/profile",
-    failureRedirect: "/login",
-    failureFlash: true,
-  })
-);
+app.post("/login", (req, res, next) => {
+    passport.authenticate("local", async (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+  
+      if (!user) {
+        req.flash("error", info.message);
+        return res.redirect("/login");
+      }
+  
+      req.logIn(user, async (err) => {
+        if (err) {
+          return next(err);
+        }
+  
+        // Save the device token to the user object
+        user.deviceToken = req.body.deviceToken;
+        await user.save();
+  
+        req.flash("success", "Logged in successfully!");
+        console.log('logged in!');
+        console.log(req.body.deviceToken);
+        res.redirect("/profile");
+      });
+    })(req, res, next);
+  });
 
 app.get("/logout", (req, res) => {
   req.session.destroy(err => {

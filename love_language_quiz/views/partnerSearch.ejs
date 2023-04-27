@@ -115,6 +115,7 @@
     </div>
   <% } %>
   <form id="partnerSearchForm" action="/partnerSearch" method="POST">
+    <h2 style="text-align: left; padding-left: 20px; padding-bottom: 15px;">Your current partner is <%= currentUser.partner ? currentUser.partner : 'None' %></h2>
     <div class="form-group">
       <input type="text" id="partnerUsername" name="partnerUsername" class="form-control" list="suggestions" autocomplete="off" placeholder="Enter partner's username"required>
       <datalist id="suggestions"></datalist>
