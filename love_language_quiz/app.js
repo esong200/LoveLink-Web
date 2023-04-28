@@ -326,7 +326,7 @@ app.get("/compiledQuizResults", async (req, res) => {
             compiledResults = getCompiledQuizResults(mostRecentResult, partnerResults);
 
             // Ask ChatGPT!
-            const chatGptPrompt = `Hey chatgpt, give a compatibility report of these two partners: ${compiledResults}`;
+            const chatGptPrompt = `My partner and I took a love language and got these results: ${compiledResults}. How should we communicate going forward?`;
             console.log(chatGptPrompt);
             compatibilityReport = await getCompatibilityReport(chatGptPrompt);
 
