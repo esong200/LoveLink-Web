@@ -28,7 +28,7 @@ admin.initializeApp({
 
 
 // Set up openai key
-openai.apiKey = "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";
+openai.apiKey = "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";
 
 // Connect to MongoDB
 mongoose.connect("mongodb://localhost:27017/loveLanguageQuiz", {
@@ -293,18 +293,15 @@ app.get("/profile", async (req, res) => {
           'Authorization': `Bearer ${openai.apiKey}`,
         },
         body: JSON.stringify({
-            model: "gpt-3.5-turbo",
-          prompt: "Hi there!",
-          max_tokens: 100,
-          n: 1,
-          temperature: 0.5,
+            model: "gpt-3.5-turbo-0301",
+            messages: [{role: "user", content: prompt}]
         }),
       });
       console.log('responded!');
       const responseData = await response.json();
       console.log(responseData);
       if (responseData && responseData.choices && responseData.choices.length > 0) {
-        return responseData.choices[0].text.trim();
+        return responseData.choices[0].message.content;
       } else {
         return "Error: No response from ChatGPT";
       }
@@ -490,55 +487,56 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server is running on port ${PORT}`);
   });
-  
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById("loveLanguageForm").addEventListener("submit", function(event) {
-      event.preventDefault();
+
+
+// document.addEventListener('DOMContentLoaded', function() {
+//     document.getElementById("loveLanguageForm").addEventListener("submit", function(event) {
+//       event.preventDefault();
     
-      // Save form data to sessionStorage
-      sessionStorage.setItem("name", document.getElementById("name").value);
+//       // Save form data to sessionStorage
+//       sessionStorage.setItem("name", document.getElementById("name").value);
     
-      // Assign scores to each answer
-      const loveLanguages = {
-        "Physical Touch": 0,
-        "Words Of Affirmation": 0,
-        "Quality Time": 0,
-        "Gifts": 0,
-        "Acts Of Service": 0
-      };
+//       // Assign scores to each answer
+//       const loveLanguages = {
+//         "Physical Touch": 0,
+//         "Words Of Affirmation": 0,
+//         "Quality Time": 0,
+//         "Gifts": 0,
+//         "Acts Of Service": 0
+//       };
     
-      const scores = {
-        "Physical Touch": [1, 3, 5],
-        "Words Of Affirmation": [2, 4],
-        "Quality Time": [6, 7],
-        "Gifts": [8],
-        "Acts Of Service": [9]
-      };
+//       const scores = {
+//         "Physical Touch": [1, 3, 5],
+//         "Words Of Affirmation": [2, 4],
+//         "Quality Time": [6, 7],
+//         "Gifts": [8],
+//         "Acts Of Service": [9]
+//       };
     
-      // Calculate total score for each love language based on selected answers
-      document.querySelectorAll('input[name="showLove"]:checked').forEach((radio) => {
-        const loveLanguage = radio.value;
-        scores[loveLanguage].forEach((score) => {
-          loveLanguages[loveLanguage] += score;
-        });
-      });
+//       // Calculate total score for each love language based on selected answers
+//       document.querySelectorAll('input[name="showLove"]:checked').forEach((radio) => {
+//         const loveLanguage = radio.value;
+//         scores[loveLanguage].forEach((score) => {
+//           loveLanguages[loveLanguage] += score;
+//         });
+//       });
     
-      // Save total score for each love language to sessionStorage
-      sessionStorage.setItem("loveLanguages", JSON.stringify(loveLanguages));
+//       // Save total score for each love language to sessionStorage
+//       sessionStorage.setItem("loveLanguages", JSON.stringify(loveLanguages));
     
-      sessionStorage.setItem("preferredGift", document.getElementById("preferredGift").value);
-      sessionStorage.setItem("favoriteActivity", document.getElementById("favoriteActivity").value);
+//       sessionStorage.setItem("preferredGift", document.getElementById("preferredGift").value);
+//       sessionStorage.setItem("favoriteActivity", document.getElementById("favoriteActivity").value);
     
-      // Save checked quality time preferences
-      const checkedQualityTimePreferences = [];
-      document.querySelectorAll('input[name="qualityTimePreferences"]:checked').forEach((checkbox) => {
-        checkedQualityTimePreferences.push(checkbox.value);
-      });
-      sessionStorage.setItem("qualityTimePreferences", JSON.stringify(checkedQualityTimePreferences));
+//       // Save checked quality time preferences
+//       const checkedQualityTimePreferences = [];
+//       document.querySelectorAll('input[name="qualityTimePreferences"]:checked').forEach((checkbox) => {
+//         checkedQualityTimePreferences.push(checkbox.value);
+//       });
+//       sessionStorage.setItem("qualityTimePreferences", JSON.stringify(checkedQualityTimePreferences));
     
-      // Redirect to results page
-      window.location.href = "results.html";
-    });
-    
-  });
+//       // Redirect to results page
+//       window.location.href = "results.html";
+//     });
+
+  // });
   
