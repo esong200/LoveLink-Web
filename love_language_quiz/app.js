@@ -267,6 +267,15 @@ app.get("/profile", async (req, res) => {
     }
   });
 
+  app.get("/settings", (req, res) => {
+    if (req.isAuthenticated()) {
+      res.render("settings");
+    } else {
+      req.flash("error", "You must be logged in to access settings.");
+      res.redirect("/login");
+    }
+  });
+
   // Helper function to compile quiz results into string
   let compiledResults = "Quiz summaries will appear here";
   let compatibilityReport = "Analysis will appear here";
@@ -406,7 +415,7 @@ app.get('/partnerSearch', (req, res) => {
   
         req.flash("success", `You are now connected with ${partner.username}.`);
         console.log("success", `You are now connected with ${partner.username}.`)
-        res.redirect("/profile");
+        res.redirect("/settings");
       } catch (error) {
         req.flash("error", "An error occurred while searching for a partner.");
         console.log("error", "An error occurred while searching for a partner.");

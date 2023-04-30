@@ -45,7 +45,7 @@
     }
     button.logout {
         position: absolute;
-        top: 10px;
+        top: 15px;
         left: 5px;
         width: 80px;
         padding: 5px;
@@ -57,8 +57,26 @@
         cursor: pointer;
     }
     button.logout:hover {
-    background-color: #B2344C;
+        background-color: #B2344C;
     }
+
+    button.settings {
+        position: absolute;
+        top: 15px;
+        right: 5px;
+        width: 80px;
+        padding: 5px;
+        font-size: 14px;
+        background-color: #e9a9a9;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+    }
+    button.settings:hover {
+        background-color: #B2344C;
+    }
+
     .switch-container {
         display: flex;
         justify-content: center;
@@ -124,6 +142,25 @@
     .timestamp-text {
         color: #BDBDBD;
     }
+    .message-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        font-weight: 500;
+    }
+    .message-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        max-width: 80%;
+    }
 </style>
 </head>
 <body>
@@ -134,7 +171,7 @@
                 window.location.href = "/compiledQuizResults";
             });
         }
-        </script>
+     </script>
      <h1>LoveLink</h1>
      <% if (error) { %>
        <div class="alert text-center" role="alert" style="background-color: #e9a9a9; color: #ffffff;">
@@ -146,22 +183,22 @@
          <%= success %>
        </div>
      <% } %>
-     <div class="container">
+    <div class="container">
        <h2 style="text-align: center; font-weight: 500;">Welcome, <%= currentUser.name %></h2>
-       <div class="switch-container">
+        <div class="switch-container">
            <span class="switch-label">Feed</span>
            <label class="switch">
              <input type="checkbox" id="toggleSwitch">
              <span class="slider"></span>
            </label>
            <span class="switch-label">Quizzes</span>
-         </div>
-       <button onclick="location.href='/pin';" style = "font-weight: 500;">View Your Pin</button>
-       <button onclick="location.href='/partnerSearch';" style = "font-weight: 500;">Connect With your Partner</button>
-       <button class="logout" onclick="location.href='/logout';" style = "font-weight: 500;">Logout</button>
-       <div class="quiz-content">
-        <button onclick="location.href='/quiz';" style="font-weight: 500;">Take the Love Language Quiz</button>
-
+        </div>
+        <!-- <button onclick="location.href='/pin';" style = "font-weight: 500;">View Your Pin</button> -->
+        <!-- <button onclick="location.href='/partnerSearch';" style = "font-weight: 500;">Connect With your Partner</button> -->
+        <button class="logout" onclick="location.href='/logout';" style = "font-weight: 500;">Logout</button>
+        <button class="settings" onclick="location.href='/settings';" style = "font-weight: 500;">Settings</button>
+        <div class="quiz-content">
+            <button onclick="location.href='/quiz';" style="font-weight: 500;">Take the Love Language Quiz</button>
             <% if (mostRecentResult) { %>
                 <h2 style="text-align: left; padding-left: 20px;">Your Most Recent Quiz Result:</h2>
                 <ul style="text-align: left; padding-left: 40px;">
@@ -196,117 +233,128 @@
                 <% if (currentUser.partner && mostRecentResult && partnerResults) { %>
                     <button id="compile-results-btn">Compile Quiz Results</button>
                 <% } %>
-                </div>
-                <% 
-                function timeSince(date) {
-                    const seconds = Math.floor((new Date() - date) / 1000);
-                    const interval = Math.floor(seconds / 31536000);
-        
-                    if (interval > 1) {
-                        return interval + " years ago";
-                    }
-                    if (interval === 1) {
-                        return interval + " year ago";
-                    }
-                    const months = Math.floor(seconds / 2592000);
-                    if (months > 1) {
-                        return months + " months ago";
-                    }
-                    if (months === 1) {
-                        return months + " month ago";
-                    }
-                    const days = Math.floor(seconds / 86400);
-                    if (days > 1) {
-                        return days + " days ago";
-                    }
-                    if (days === 1) {
-                        return days + " day ago";
-                    }
-                    const hours = Math.floor(seconds / 3600);
-                    if (hours > 1) {
-                        return hours + " hours ago";
-                    }
-                    if (hours === 1) {
-                        return hours + " hour ago";
-                    }
-                    const minutes = Math.floor(seconds / 60);
-                    if (minutes > 1) {
-                        return minutes + " minutes ago";
-                    }
-                    if (minutes === 1) {
-                        return minutes + " minute ago";
-                    }
-                    if (seconds > 1) {
-                        return seconds + " seconds ago";
-                    }
-                    return "just now";
-                }
-                %>
-<div class="feed-content">
-    <div class="tab-pane fade show" id="feed" role="tabpanel" aria-labelledby="feed-tab">
-        <h2 style="text-align: center;">Feed</h2>
-        <button onclick="location.href='/sendNudge';">Send Nudge</button>
-        <% if (currentUser && currentUser.nudgeInbox.length > 0) { %>
-        <div style="width: 100%; height: 200px; overflow-y: scroll; margin-top: 20px; border: none;">
-            <ul style="list-style-type: none; padding: 0;">
-                <% currentUser.nudgeInbox.slice().reverse().forEach((nudge) => { %>
-                    <li style="padding: 15px; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between; width: 100%; box-sizing: border-box;" onclick="displayMessage('<%= nudge.message %>', '<%= timeSince(nudge.timestamp) %>')">
-                        <span style="font-weight: 500;"><%= nudge.message.substring(0, 30) + (nudge.message.length > 30 ? '...' : '') %></span>
-                        <span class="timestamp-text" style="color: #888;"><%= timeSince(nudge.timestamp) %></span>
-                    </li>
-                <% }); %>
-            </ul>
         </div>
-        <% } %>
-    </div>
-</div>
+        <% 
+        function timeSince(date) {
+            const seconds = Math.floor((new Date() - date) / 1000);
+            const interval = Math.floor(seconds / 31536000);
+
+            if (interval > 1) {
+                return interval + " years ago";
+            }
+            if (interval === 1) {
+                return interval + " year ago";
+            }
+            const months = Math.floor(seconds / 2592000);
+            if (months > 1) {
+                return months + " months ago";
+            }
+            if (months === 1) {
+                return months + " month ago";
+            }
+            const days = Math.floor(seconds / 86400);
+            if (days > 1) {
+                return days + " days ago";
+            }
+            if (days === 1) {
+                return days + " day ago";
+            }
+            const hours = Math.floor(seconds / 3600);
+            if (hours > 1) {
+                return hours + " hours ago";
+            }
+            if (hours === 1) {
+                return hours + " hour ago";
+            }
+            const minutes = Math.floor(seconds / 60);
+            if (minutes > 1) {
+                return minutes + " minutes ago";
+            }
+            if (minutes === 1) {
+                return minutes + " minute ago";
+            }
+            if (seconds > 1) {
+                return seconds + " seconds ago";
+            }
+            return "just now";
+        }
+        %>
+        <div class="feed-content">
+            <div class="tab-pane fade show" id="feed" role="tabpanel" aria-labelledby="feed-tab">
+                <h2 style="text-align: center;">Feed</h2>
+                <button onclick="location.href='/sendNudge';">Send Nudge</button>
+                <% if (currentUser && currentUser.nudgeInbox.length > 0) { %>
+                <div style="width: 100%; height: 200px; overflow-y: scroll; margin-top: 20px; border: none;">
+                    <ul style="list-style-type: none; padding: 0;">
+                        <% currentUser.nudgeInbox.slice().reverse().forEach((nudge) => { %>
+                            <li style="padding: 15px; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between; width: 100%; box-sizing: border-box;" onclick="showMessageOverlay('<%= nudge.message %>', '<%= timeSince(nudge.timestamp) %>')">
+                                <span style="font-weight: 500;"><%= nudge.message.substring(0, 30) + (nudge.message.length > 30 ? '...' : '') %></span>
+                                <span class="timestamp-text" style="color: #888;"><%= timeSince(nudge.timestamp) %></span>
+                            </li>
+                        <% }); %>
+                    </ul>
+                </div>
+                <% } %>
             </div>
-            <script>
-                function displayMessage(content, timeAgo) {
-                    alert('Message: ' + content + '\nReceived: ' + timeAgo);
-                }
-                document.getElementById("toggleSwitch").addEventListener("change", function() {
+        </div>
+    </div>
+    <div class="message-overlay" id="messageOverlay" onclick="hideMessageOverlay()">
+        <div class="message-content" id="messageContent">
+          <p id="messageText"></p>
+          <p id="messageTimestamp"></p>
+        </div>
+    </div>
+    <script>
+        function showMessageOverlay(content, timeAgo) {
+            document.getElementById('messageText').innerText = content;
+            document.getElementById('messageTimestamp').innerText = 'Received: ' + timeAgo;
+            document.getElementById('messageOverlay').style.display = 'flex';
+        }
+        function hideMessageOverlay() {
+            document.getElementById('messageOverlay').style.display = 'none';
+        }
+        document.getElementById("toggleSwitch").addEventListener("change", function() {
+        const quizContent = document.querySelector(".quiz-content");
+        const feedContent = document.querySelector(".feed-content");
+        if (this.checked) {
+            quizContent.style.display = "block";
+            feedContent.style.display = "none";
+        } else {
+            quizContent.style.display = "none";
+            feedContent.style.display = "block";
+        }
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleSwitch = document.getElementById('toggleSwitch');
+
+            // Load the saved state from localStorage
+            const savedState = localStorage.getItem('switchState');
+            if (savedState === 'quizzes') {
+                toggleSwitch.checked = true;
+            }
+            toggleContentVisibility();
+
+            toggleSwitch.addEventListener('change', function() {
+                // Save the current state to localStorage
+                localStorage.setItem('switchState', toggleSwitch.checked ? 'quizzes' : 'feed');
+                toggleContentVisibility();
+            });
+
+            function toggleContentVisibility() {
                 const quizContent = document.querySelector(".quiz-content");
                 const feedContent = document.querySelector(".feed-content");
-                if (this.checked) {
+                if (toggleSwitch.checked) {
                     quizContent.style.display = "block";
                     feedContent.style.display = "none";
                 } else {
                     quizContent.style.display = "none";
                     feedContent.style.display = "block";
                 }
-                });
-                document.addEventListener('DOMContentLoaded', function() {
-                const toggleSwitch = document.getElementById('toggleSwitch');
-
-                // Load the saved state from localStorage
-                const savedState = localStorage.getItem('switchState');
-                if (savedState === 'quizzes') {
-                    toggleSwitch.checked = true;
-                }
-                toggleContentVisibility();
-
-                toggleSwitch.addEventListener('change', function() {
-                    // Save the current state to localStorage
-                    localStorage.setItem('switchState', toggleSwitch.checked ? 'quizzes' : 'feed');
-                    toggleContentVisibility();
-                });
-
-                function toggleContentVisibility() {
-                    const quizContent = document.querySelector(".quiz-content");
-                    const feedContent = document.querySelector(".feed-content");
-                    if (toggleSwitch.checked) {
-                        quizContent.style.display = "block";
-                        feedContent.style.display = "none";
-                    } else {
-                        quizContent.style.display = "none";
-                        feedContent.style.display = "block";
-                    }
-                }
-            });
-        </script>
+            }
+        });
+    </script>
     </body>
-</div>
+    </div>
 </body>
 </html>
     
