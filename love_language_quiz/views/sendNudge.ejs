@@ -42,42 +42,10 @@
     button:hover {
       background-color: #B2344C;
     }
-         button.back {
-        position: absolute;
-        top: 15px;
-        left: 5px;
-        width: 80px;
-        padding: 5px;
-        font-size: 14px;
-        background-color: #e9a9a9;
-        color: white;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-    }
-    button.back:hover {
-        background-color: #B2344C;
-    }    button.back {
-        position: absolute;
-        top: 15px;
-        left: 5px;
-        width: 80px;
-        padding: 5px;
-        font-size: 14px;
-        background-color: #e9a9a9;
-        color: white;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-    }
-    button.back:hover {
-        background-color: #B2344C;
-    }
   </style>
 </head>
 <body>
   <h1>LoveLink</h1>
-  <button class="back" onclick="location.href='/profile';" style = "font-weight: 500;">Back</button>
   <div class="container">
     <h2 style="text-align: center;">Compose</h2>
     <form action="/sendNudge" method="POST">
@@ -87,6 +55,7 @@
       </div>
       <button type="submit">Send</button>
     </form>
+    <button onclick="location.href='/profile';">Back to Profile</button>
   </div>
 </body>
 </html>
