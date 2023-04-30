@@ -67,9 +67,26 @@
     button:hover, input[type="submit"]:hover {
       background-color: #B2344C;
     }
+    button.back {
+        position: absolute;
+        top: 15px;
+        left: 5px;
+        width: 80px;
+        padding: 5px;
+        font-size: 14px;
+        background-color: #e9a9a9;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+    }
+    button.back:hover {
+        background-color: #B2344C;
+    }
   </style>
 </head>
 <body>
+  <button class="back" onclick="location.href='/profile';" style = "font-weight: 500;">Back</button>
   <h1>Love Language Quiz</h1>
   <form id="loveLanguageForm" action="/quiz" method="POST">
     <div class="form-group question">
@@ -126,7 +143,6 @@
         </select>
     </div>
     <div class="text-center">
-        <a href="/profile" class="btn" style = "font-weight: 500;">Return to Profile</a>
         <input type="submit" style = "font-weight: 500;" value="Submit">
       </div>
         </form>

@@ -222,16 +222,16 @@
                             <strong>Communication Preference:</strong> <%= partnerResults.communicationPreference %>
                         </ul>
                         <div id="quizResultsOutput">
-                            <label id = 'compiledQuizResultsLabel'><%= compiledResults %></label>
-                            <label id = 'chatGPTOutputLabel'>Your Compatibility report:</label>
-                            <label id = 'chatGPTOutput'><%= compatibilityReport %></label>
+                            <label id = 'compiledQuizResultsLabel' style="color: #666666;"><%= compiledResults %></label>
+                            <label id = 'chatGPTOutputLabel' style="font-weight: 500;">Your Compatibility report</label>
+                            <label id = 'chatGPTOutput' style="color: #666666;"><%= compatibilityReport %></label>
                         </div>
                     <% } else { %>
                         <h3 style ="text-align: center;">Your partner hasn't taken the quiz yet.</h3>
                     <% } %>
                 <% } %>
                 <% if (currentUser.partner && mostRecentResult && partnerResults) { %>
-                    <button id="compile-results-btn">Compile Quiz Results</button>
+                    <button id="compile-results-btn">Get Compatibility Report</button>
                 <% } %>
         </div>
         <% 
