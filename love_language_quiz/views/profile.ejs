@@ -38,7 +38,7 @@
       border: none;
       border-radius: 50px;
       cursor: pointer;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
     button:hover {
       background-color: #B2344C;
@@ -200,35 +200,38 @@
         <div class="quiz-content">
             <button onclick="location.href='/quiz';" style="font-weight: 500;">Take the Love Language Quiz</button>
             <% if (mostRecentResult) { %>
-                <h2 style="text-align: left; padding-left: 20px;">Your Most Recent Quiz Result:</h2>
+                <!-- <h2 style="text-align: left; padding-left: 20px;">Your Most Recent Quiz Result:</h2>
                 <ul style="text-align: left; padding-left: 40px;">
                     <strong>Partner Name:</strong> <%= mostRecentResult.name %> <br>
                     <strong>Show Love:</strong> <%= mostRecentResult.showLove %> <br>
                     <strong>Preferred Gift:</strong> <%= mostRecentResult.preferredGift %> <br>
                     <strong>Favorite Activity:</strong> <%= mostRecentResult.favoriteActivity %> <br>
                     <strong>Communication Preference:</strong> <%= mostRecentResult.communicationPreference %>
-                    </ul>
-                <% } else { %>
-                    <h3 style ="text-align: center;">You haven't taken the quiz yet.</h3>
-                <% } %>
-                <% if (currentUser.partner) { %>
-                    <% if (partnerResults) { %>
-                        <h2 style="text-align: left; padding-left: 20px;">Your Partner's Most Recent Quiz Result:</h2>
-                        <ul style="text-align: left; padding-left: 40px;">
-                            <strong>Partner Name:</strong> <%= partnerResults.name %> <br>
-                            <strong>Show Love:</strong> <%= partnerResults.showLove %> <br>
-                            <strong>Preferred Gift:</strong> <%= partnerResults.preferredGift %> <br>
-                            <strong>Favorite Activity:</strong> <%= partnerResults.favoriteActivity %> <br>
-                            <strong>Communication Preference:</strong> <%= partnerResults.communicationPreference %>
-                        </ul>
-                        <div id="quizResultsOutput">
-                            <label id = 'compiledQuizResultsLabel' style="color: #666666;"><%= compiledResults %></label>
-                            <label id = 'chatGPTOutputLabel' style="font-weight: 500;">Your Compatibility report</label>
-                            <label id = 'chatGPTOutput' style="color: #666666;"><%= compatibilityReport %></label>
-                        </div>
-                    <% } else { %>
-                        <h3 style ="text-align: center;">Your partner hasn't taken the quiz yet.</h3>
+                    </ul> -->
+                    <% if (currentUser.partner) { %>
+                        <% if (partnerResults) { %>
+                            <!-- <h2 style="text-align: left; padding-left: 20px;">Your Partner's Most Recent Quiz Result:</h2>
+                            <ul style="text-align: left; padding-left: 40px;">
+                                <strong>Partner Name:</strong> <%= partnerResults.name %> <br>
+                                <strong>Show Love:</strong> <%= partnerResults.showLove %> <br>
+                                <strong>Preferred Gift:</strong> <%= partnerResults.preferredGift %> <br>
+                                <strong>Favorite Activity:</strong> <%= partnerResults.favoriteActivity %> <br>
+                                <strong>Communication Preference:</strong> <%= partnerResults.communicationPreference %>
+                            </ul> -->
+                            <div id="quizResultsOutput">
+                                <label style="font-weight: 500;">Here are you and your partner's quiz summaries</label>
+                                <label id = 'compiledQuizResultsLabel' style="color: #666666;"><%= compiledResults %></label>
+                                <label id = 'chatGPTOutputLabel' style="font-weight: 500;">Your Compatibility report</label>
+                                <label id = 'chatGPTOutput' style="color: #666666;"><%= compatibilityReport %></label>
+                            </div>
+                        <% } else { %>
+                            <label style ="text-align: center;">You've taken the quiz, we're just waiting on your partner</h3>
+                        <% } %>
+                    <% } else {%>
+                        <label style ="text-align: center;">You've taken the quiz, but you don't have a partner added yet</h3>
                     <% } %>
+                <% } else { %>
+                    <label style ="text-align: center;">You haven't taken the quiz yet. Take it now!</h3>
                 <% } %>
                 <% if (currentUser.partner && mostRecentResult && partnerResults) { %>
                     <button id="compile-results-btn">Get Compatibility Report</button>
