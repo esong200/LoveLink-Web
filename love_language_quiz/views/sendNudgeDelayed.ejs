@@ -10,11 +10,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
-    function storeMessageAndNavigate() {
-      const message = document.getElementById('nudgeMessage').value;
-      sessionStorage.setItem('nudgeMessage', message);
-      location.href = '/sendNudgeDelayed';
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const storedMessage = sessionStorage.getItem('nudgeMessage');
+      if (storedMessage) {
+        document.getElementById('nudgeMessage').value = storedMessage;
+      }
+    });
   </script>
   <style>
     body {
@@ -56,15 +57,18 @@
   <h1>LoveLink</h1>
   <div class="container">
     <h2 style="text-align: center;">Compose</h2>
-    <form action="/sendNudge" method="POST">
+    <form action="/sendNudgeDelayed" method="POST">
 
       <div class="form-group">
         <textarea class="form-control" id="nudgeMessage" name="nudgeMessage" rows="4" required placeholder="Enter a message"></textarea>
       </div>
-      <button type="submit">Send</button>
-      <button type="button" onclick="storeMessageAndNavigate();">Send Delayed</button>
+      <div class="form-group">
+        <label for="nudgeDateTime">Schedule nudge for:</label>
+        <input type="datetime-local" class="form-control" id="nudgeDateTime" name="nudgeDateTime" required>
+      </div>
+      <button type="submit">Schedule Nudge</button>
     </form>
-    <button onclick="location.href='/profile';">Cancel</button>
+    <button onclick="location.href='/sendNudge';">Back</button>
   </div>
 </body>
 </html>

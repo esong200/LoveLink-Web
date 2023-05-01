@@ -15,6 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
+app.use(express.static(__dirname + '/public'));
 
 // Google Firebase initialization
 const admin = require('firebase-admin');
@@ -67,6 +68,7 @@ const UserSchema = new mongoose.Schema({
 
     nudgeInbox: [NudgeSchema],
     nudgeOutbox: [NudgeSchema],
+    delayedNudgeOutbox: [NudgeSchema]
   });
 
 const User = mongoose.model("User", UserSchema);
@@ -489,6 +491,25 @@ app.get("/sendNudge", (req, res) => {
       req.flash("error", "You must be logged in to send a nudge.");
       res.redirect("/login");
     }
+  });
+
+  app.get('/sendNudgeDelayed', (req, res) => {
+    res.render('sendNudgeDelayed');
+  });
+  
+  app.post('/sendNudgeDelayed', (req, res) => {
+    const nudgeMessage = req.body.nudgeMessage;
+    const nudgeDateTime = req.body.nudgeDateTime;
+    
+    console.log('sending delayed');
+    console.log(nudgeMessage);
+
+    const delayedNudge = new Nudge({
+      message: nudgeMessage,
+      timestamp: nudgeDateTime,
+    });
+
+    res.redirect('/profile');
   });
 
 // Start the server
