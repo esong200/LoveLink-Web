@@ -44,12 +44,13 @@
       background-color: #B2344C;
     }
     button.logout {
+        font-weight: 500;
         position: absolute;
-        top: 15px;
+        top: 12px;
         left: 5px;
         width: 80px;
         padding: 5px;
-        font-size: 14px;
+        font-size: 16px;
         background-color: #e9a9a9;
         color: white;
         border: none;
@@ -61,12 +62,13 @@
     }
 
     button.settings {
+        font-weight: 500;
         position: absolute;
-        top: 15px;
+        top: 12px;
         right: 5px;
         width: 80px;
         padding: 5px;
-        font-size: 14px;
+        font-size: 16px;
         background-color: #e9a9a9;
         color: white;
         border: none;
@@ -195,8 +197,8 @@
         </div>
         <!-- <button onclick="location.href='/pin';" style = "font-weight: 500;">View Your Pin</button> -->
         <!-- <button onclick="location.href='/partnerSearch';" style = "font-weight: 500;">Connect With your Partner</button> -->
-        <button class="logout" onclick="location.href='/logout';" style = "font-weight: 500;">Logout</button>
-        <button class="settings" onclick="location.href='/settings';" style = "font-weight: 500;">Settings</button>
+        <button class="logout" onclick="location.href='/logout';">Logout</button>
+        <button class="settings" onclick="location.href='/settings';">Settings</button>
         <div class="quiz-content">
             <button onclick="location.href='/quiz';" style="font-weight: 500;">Take the Love Language Quiz</button>
             <% if (mostRecentResult) { %>
