@@ -42,6 +42,7 @@ mongoose.connect("mongodb://localhost:27017/loveLanguageQuiz", {
 const NudgeSchema = new mongoose.Schema({
     message: String,
     timestamp: Date,
+    drawing: String
   });
 
 
@@ -465,12 +466,17 @@ app.get("/sendNudge", (req, res) => {
   
   app.post("/sendNudge", async (req, res) => {
     const message = req.body.nudgeMessage;
+    const drawingData = req.body.drawingData;
+
     if (req.isAuthenticated()) {
         console.log(message);
       const nudge = new Nudge({
         message: message,
         timestamp: new Date(),
+        drawing: drawingData
       });
+      console.log('drawingData:');
+      console.log(drawingData);
   
       // Save nudge to sender's outbox
       req.user.nudgeOutbox.push(nudge);
@@ -497,7 +503,7 @@ app.get("/sendNudge", (req, res) => {
     res.render('sendNudgeDelayed');
   });
   
-  app.post('/sendNudgeDelayed', (req, res) => {
+  app.post('/sendNudgeDelayed', async (req, res) => {
     const nudgeMessage = req.body.nudgeMessage;
     const nudgeDateTime = req.body.nudgeDateTime;
     
@@ -508,6 +514,10 @@ app.get("/sendNudge", (req, res) => {
       message: nudgeMessage,
       timestamp: nudgeDateTime,
     });
+
+    // Save nudge to sender's outbox
+    req.user.nudgeOutbox.push(delayedNudge);
+    await req.user.save();
 
     res.redirect('/profile');
   });

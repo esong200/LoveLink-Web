@@ -50,17 +50,64 @@
     button:hover {
       background-color: #B2344C;
     }
+    canvas {
+      border: 1px solid #a8a8a8;
+      margin-bottom: 10px;
+    }
   </style>
+  <script>
+    let canvas;
+    let ctx;
+    let isDrawing = false;
+  
+    function initCanvas() {
+      canvas = document.getElementById('drawingCanvas');
+      ctx = canvas.getContext('2d');
+  
+      canvas.addEventListener('mousedown', startDrawing);
+      canvas.addEventListener('mousemove', draw);
+      canvas.addEventListener('mouseup', stopDrawing);
+    }
+  
+    function startDrawing(event) {
+      isDrawing = true;
+      ctx.beginPath();
+      ctx.moveTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+    }
+  
+    function draw(event) {
+      if (!isDrawing) return;
+      ctx.lineTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+      ctx.stroke();
+    }
+  
+    function stopDrawing() {
+      isDrawing = false;
+    }
+  
+    document.addEventListener('DOMContentLoaded', initCanvas);
+  </script>
 </head>
 <body>
   <h1>LoveLink</h1>
   <div class="container">
     <h2 style="text-align: center;">Compose</h2>
-    <form action="/sendNudge" method="POST">
+    <form action="/sendNudge" method="POST" onsubmit="appendDrawingData();">
 
       <div class="form-group">
         <textarea class="form-control" id="nudgeMessage" name="nudgeMessage" rows="4" required placeholder="Enter a message"></textarea>
       </div>
+      <div>
+        <canvas id="drawingCanvas" width="550" height="200"></canvas>
+      </div>
+      <input type="hidden" id="drawingData" name="drawingData">
+
+      <script>
+        function appendDrawingData() {
+          const drawingData = canvas.toDataURL();
+          document.getElementById('drawingData').value = drawingData;
+        }
+      </script>
       <button type="submit">Send</button>
       <button type="button" onclick="storeMessageAndNavigate();">Send Delayed</button>
     </form>

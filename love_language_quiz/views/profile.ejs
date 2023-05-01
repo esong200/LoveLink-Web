@@ -292,7 +292,7 @@
                 <div style="width: 100%; height: 200px; overflow-y: scroll; margin-top: 20px; border: none;">
                     <ul style="list-style-type: none; padding: 0;">
                         <% currentUser.nudgeInbox.slice().reverse().forEach((nudge) => { %>
-                            <li style="padding: 15px; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between; width: 100%; box-sizing: border-box;" onclick="showMessageOverlay('<%= nudge.message %>', '<%= timeSince(nudge.timestamp) %>')">
+                            <li style="padding: 15px; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between; width: 100%; box-sizing: border-box;" onclick="showMessageOverlay('<%= nudge.message %>', '<%= timeSince(nudge.timestamp) %>', '<%= nudge.drawing %>')">
                                 <span style="font-weight: 500;"><%= nudge.message.substring(0, 30) + (nudge.message.length > 30 ? '...' : '') %></span>
                                 <span class="timestamp-text" style="color: #888;"><%= timeSince(nudge.timestamp) %></span>
                             </li>
@@ -305,14 +305,24 @@
     </div>
     <div class="message-overlay" id="messageOverlay" onclick="hideMessageOverlay()">
         <div class="message-content" id="messageContent">
-          <p id="messageText"></p>
-          <p id="messageTimestamp"></p>
+            <p id="messageText"></p>
+            <img id="nudgeDrawing" alt="Nudge Drawing" width="100%" style="display: none;" />
+            <p id="messageTimestamp"></p>
         </div>
     </div>
     <script>
-        function showMessageOverlay(content, timeAgo) {
+        function showMessageOverlay(content, timeAgo, drawing) {
             document.getElementById('messageText').innerText = content;
             document.getElementById('messageTimestamp').innerText = 'Received: ' + timeAgo;
+
+            const nudgeDrawing = document.getElementById('nudgeDrawing');
+            if (drawing) {
+                nudgeDrawing.src = drawing;
+                nudgeDrawing.style.display = 'block';
+            } else {
+                nudgeDrawing.style.display = 'none';
+            }
+
             document.getElementById('messageOverlay').style.display = 'flex';
         }
         function hideMessageOverlay() {
