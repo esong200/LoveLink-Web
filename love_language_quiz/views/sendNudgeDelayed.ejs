@@ -31,6 +31,10 @@
       canvas.width = rect.width;
       canvas.height = rect.height;
     }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
   
     window.addEventListener('resize', resizeCanvas);
     document.addEventListener('DOMContentLoaded', initCanvas);
@@ -80,7 +84,6 @@
     canvas {
       border: 1px solid #a8a8a8;
       margin-bottom: 10px;
-      width: 100%
     }
   </style>
 </head>
@@ -94,12 +97,13 @@
         <textarea class="form-control" id="nudgeMessage" name="nudgeMessage" rows="4" required placeholder="Enter a message"></textarea>
       </div>
       <div>
-        <canvas id="drawingCanvas"></canvas>
+        <canvas id="drawingCanvas" height="200" width = "350"></canvas>
       </div>
       <div class="form-group">
         <label for="nudgeDateTime">Schedule nudge for:</label>
         <input type="datetime-local" class="form-control" id="nudgeDateTime" name="nudgeDateTime" required>
       </div>
+      <button onclick="clearCanvas()">Clear Drawing</button>
       <button type="submit">Schedule Nudge</button>
     </form>
     <button onclick="location.href='/sendNudge';">Back</button>

@@ -57,6 +57,10 @@
       isDrawing = false;
     }
 
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
     document.addEventListener('DOMContentLoaded', initCanvas);
   </script>
   <style>
@@ -119,6 +123,7 @@
           document.getElementById('drawingData').value = drawingData;
         }
       </script>
+      <button onclick="clearCanvas()">Clear Drawing</button>
       <button type="submit">Send</button>
       <button type="button" onclick="storeMessageAndNavigate();">Send Delayed</button>
     </form>
