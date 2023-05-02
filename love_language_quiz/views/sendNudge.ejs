@@ -44,12 +44,18 @@
     function startDrawing(event) {
       isDrawing = true;
       ctx.beginPath();
-      ctx.moveTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+      ctx.moveTo(
+        event.clientX - canvas.offsetLeft + window.scrollX,
+        event.clientY - canvas.offsetTop + window.scrollY
+      );
     }
 
     function draw(event) {
       if (!isDrawing) return;
-      ctx.lineTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+      ctx.lineTo(
+        event.clientX - canvas.offsetLeft + window.scrollX,
+        event.clientY - canvas.offsetTop + window.scrollY
+      );
       ctx.stroke();
     }
 
