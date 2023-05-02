@@ -10,12 +10,38 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
+    let canvas;
+    let ctx;
+        
+    function initCanvas() {
+      canvas = document.getElementById('drawingCanvas');
+      ctx = canvas.getContext('2d');
+      resizeCanvas();
+          
+      const drawingData = sessionStorage.getItem('nudgeDrawing');
+      if (drawingData) {
+        const img = new Image();
+        img.onload = () => ctx.drawImage(img, 0, 0);
+        img.src = drawingData;
+      }
+    }
+  
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+    }
+  
+    window.addEventListener('resize', resizeCanvas);
+    document.addEventListener('DOMContentLoaded', initCanvas);
+    
     document.addEventListener('DOMContentLoaded', function() {
       const storedMessage = sessionStorage.getItem('nudgeMessage');
       if (storedMessage) {
         document.getElementById('nudgeMessage').value = storedMessage;
       }
     });
+  
   </script>
   <style>
     body {
@@ -51,6 +77,11 @@
     button:hover {
       background-color: #B2344C;
     }
+    canvas {
+      border: 1px solid #a8a8a8;
+      margin-bottom: 10px;
+      width: 100%
+    }
   </style>
 </head>
 <body>
@@ -61,6 +92,9 @@
 
       <div class="form-group">
         <textarea class="form-control" id="nudgeMessage" name="nudgeMessage" rows="4" required placeholder="Enter a message"></textarea>
+      </div>
+      <div>
+        <canvas id="drawingCanvas"></canvas>
       </div>
       <div class="form-group">
         <label for="nudgeDateTime">Schedule nudge for:</label>
