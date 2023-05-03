@@ -531,11 +531,10 @@ app.get("/sendNudge", (req, res) => {
 
     res.redirect('/profile');
   });
-  <script>
-    window.addEventListener("beforeunload", function () {
-      document.querySelector(".title-container").classList.add("animated-title")
-    });
-  </script>
+    // window.addEventListener("beforeunload", function () {
+    //   document.querySelector(".title-container").classList.add("animated-title")
+    // });
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;
