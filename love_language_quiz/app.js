@@ -43,7 +43,7 @@ const NudgeSchema = new mongoose.Schema({
     timestamp: Date,
   });
 
-
+//TODO @liam update this
 const UserSchema = new mongoose.Schema({
     name: String,
     username: String,
@@ -57,6 +57,8 @@ const UserSchema = new mongoose.Schema({
         preferredGift: String,
         favoriteActivity: String,
         communicationPreference: String,
+        frequency: String,
+        favoriteThing: String,
       },
     ],
 
@@ -220,6 +222,7 @@ app.get("/quiz", (req, res) => {
   }
 });
 
+//TODO @liam update this
 app.post("/quiz", async (req, res) => {
   if (req.isAuthenticated()) {
     const quizResults = {
@@ -228,6 +231,8 @@ app.post("/quiz", async (req, res) => {
         preferredGift: req.body.preferredGift,
         favoriteActivity: req.body.favoriteActivity,
         communicationPreference: req.body.communicationPreference,
+        frequency: req.body.frequency,
+        favoriteThing: req.body.favoriteThing,
     };
     try {
       await User.updateOne(
@@ -272,16 +277,21 @@ app.get("/profile", async (req, res) => {
   let compatibilityReport = "Analysis will appear here";
 
   function getCompiledQuizResults(userResults, partnerResults) {
-    return `Partner 1 (${userResults.name}) 
+    //TODO @liam change this
+    return `${partnerResults.name}
     shows love through ${userResults.showLove}, 
-    prefers to receive ${userResults.preferredGift} gifts, 
     enjoys activities such as ${userResults.favoriteActivity}, 
     and communicates best through ${userResults.communicationPreference}. 
-    Partner 2 (${partnerResults.name})
+    When asked about gift preferences they said: ${userResults.preferredGift}.
+    When asked about communication frequency they said: ${userResults.frequency}.
+    When asked the favorite thing about their partner they said ${userResults.favoriteThing}
+    Their partner, ${userResults.name},
     shows love through ${partnerResults.showLove}, 
-    prefers to receive ${partnerResults.preferredGift} gifts, 
     enjoys activities such as ${partnerResults.favoriteActivity}, 
-    and communicates best through ${partnerResults.communicationPreference}.`;
+    and communicates best through ${partnerResults.communicationPreference}.
+    When asked about gift preferences they said: ${partnerResults.preferredGift}.
+    When asked about communication frequency they said: ${partnerResults.frequency}.
+    When asked the favorite thing about their partner they said ${partnerResults.favoriteThing}`;
   }
 
   async function getCompatibilityReport(prompt) {
@@ -326,7 +336,7 @@ app.get("/compiledQuizResults", async (req, res) => {
             compiledResults = getCompiledQuizResults(mostRecentResult, partnerResults);
 
             // Ask ChatGPT!
-            const chatGptPrompt = `My partner and I took a love language and got these results: ${compiledResults}. How should we communicate going forward?`;
+            const chatGptPrompt = `My partner and I took a love language and got these results: ${compiledResults}. We are long-distance partners. We are located in different time zones. How should we communicate going forward?`;
             console.log(chatGptPrompt);
             compatibilityReport = await getCompatibilityReport(chatGptPrompt);
 
