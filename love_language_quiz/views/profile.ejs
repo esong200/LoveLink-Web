@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <style>
@@ -52,7 +51,7 @@
     button.logout {
         font-weight: 500;
         position: absolute;
-        top: 8px;
+        top: 6px;
         left: 5px;
         width: 80px;
         padding: 5px;
@@ -70,7 +69,7 @@
     button.settings {
         font-weight: 500;
         position: absolute;
-        top: 8px;
+        top: 6px;
         right: 5px;
         width: 80px;
         padding: 5px;
@@ -263,9 +262,9 @@
                     <label style ="text-align: center;">You haven't taken the quiz yet. Take it now!</h3>
                 <% } %>
                 <% if (currentUser.partner && mostRecentResult && partnerResults) { %>
-                    <button onclick="location.href='/quiz';" style="font-weight: 500;">Take the Love Language Quiz</button>
                     <button id="compile-results-btn" style="margin-top: 0px;">Get Compatibility Report</button>
                 <% } %>
+                <button onclick="location.href='/quiz';" style="font-weight: 500;">Take the Love Language Quiz</button>
         </div>
         <% 
         function timeSince(date) {
