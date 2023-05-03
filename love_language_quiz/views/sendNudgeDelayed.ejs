@@ -12,62 +12,40 @@
   <script>
     let canvas;
     let ctx;
-    let isDrawing = false;
-
-    function storeMessageAndNavigate() {
-      const message = document.getElementById('nudgeMessage').value;
-      const drawingData = canvas.toDataURL(); // Get drawing data as a base64 encoded string
-      sessionStorage.setItem('nudgeMessage', message);
-      sessionStorage.setItem('nudgeDrawing', drawingData);
-      location.href = '/sendNudgeDelayed';
-    }
-
+        
     function initCanvas() {
       canvas = document.getElementById('drawingCanvas');
       ctx = canvas.getContext('2d');
-
-      canvas.addEventListener('mousedown', startDrawing);
-      canvas.addEventListener('mousemove', draw);
-      canvas.addEventListener('mouseup', stopDrawing);
-      canvas.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        startDrawing(e.touches[0]);
-      });
-      canvas.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        draw(e.touches[0]);
-      });
-      canvas.addEventListener('touchend', stopDrawing);
-      canvas.addEventListener('touchcancel', stopDrawing);
+      resizeCanvas();
+          
+      const drawingData = sessionStorage.getItem('nudgeDrawing');
+      if (drawingData) {
+        const img = new Image();
+        img.onload = () => ctx.drawImage(img, 0, 0);
+        img.src = drawingData;
+      }
     }
-
-    function startDrawing(event) {
-      isDrawing = true;
-      ctx.beginPath();
-      ctx.moveTo(
-        event.clientX - canvas.offsetLeft + window.scrollX,
-        event.clientY - canvas.offsetTop + window.scrollY
-      );
-    }
-
-    function draw(event) {
-      if (!isDrawing) return;
-      ctx.lineTo(
-        event.clientX - canvas.offsetLeft + window.scrollX,
-        event.clientY - canvas.offsetTop + window.scrollY
-      );
-      ctx.stroke();
-    }
-
-    function stopDrawing() {
-      isDrawing = false;
+  
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
     }
 
     function clearCanvas() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
-
+  
+    window.addEventListener('resize', resizeCanvas);
     document.addEventListener('DOMContentLoaded', initCanvas);
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      const storedMessage = sessionStorage.getItem('nudgeMessage');
+      if (storedMessage) {
+        document.getElementById('nudgeMessage').value = storedMessage;
+      }
+    });
+  
   </script>
   <style>
     body {
@@ -113,7 +91,7 @@
   <h1>LoveLink</h1>
   <div class="container">
     <h2 style="text-align: center;">Compose</h2>
-    <form action="/sendNudge" method="POST" onsubmit="appendDrawingData();">
+    <form action="/sendNudgeDelayed" method="POST">
 
       <div class="form-group">
         <textarea class="form-control" id="nudgeMessage" name="nudgeMessage" rows="4" required placeholder="Enter a message"></textarea>
@@ -121,19 +99,14 @@
       <div>
         <canvas id="drawingCanvas" height="200" width = "350"></canvas>
       </div>
-      <input type="hidden" id="drawingData" name="drawingData">
-
-      <script>
-        function appendDrawingData() {
-          const drawingData = canvas.toDataURL();
-          document.getElementById('drawingData').value = drawingData;
-        }
-      </script>
-      <button type="button"  onclick="clearCanvas()">Clear Drawing</button>
-      <button type="submit">Send</button>
-      <button type="button" onclick="storeMessageAndNavigate();">Send Delayed</button>
+      <div class="form-group">
+        <label for="nudgeDateTime">Schedule nudge for:</label>
+        <input type="datetime-local" class="form-control" id="nudgeDateTime" name="nudgeDateTime" required>
+      </div>
+      <button type="button" onclick="clearCanvas()">Clear Drawing</button>
+      <button type="submit">Schedule Nudge</button>
     </form>
-    <button onclick="location.href='/profile';">Cancel</button>
+    <button onclick="location.href='/sendNudge';">Back</button>
   </div>
 </body>
 </html>

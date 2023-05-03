@@ -22,7 +22,7 @@
       text-align: center;
       font-weight: 500;
       padding: 20px;
-      color: #000000;
+      color: #ffffff;
     }
     form {
       max-width: 600px;
@@ -61,6 +61,22 @@
     }
     button[type="submit"]:hover {
       background-color: #B2344C;
+    }
+    button.back {
+        position: absolute;
+        top: 15px;
+        left: 5px;
+        width: 80px;
+        padding: 5px;
+        font-size: 14px;
+        background-color: #e9a9a9;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+    }
+    button.back:hover {
+        background-color: #B2344C;
     }
     a {
       color: #000;
@@ -114,8 +130,9 @@
       <%= success %>
     </div>
   <% } %>
+  <button class="back" onclick="location.href='/settings';" style = "font-weight: 500;">Back</button>
   <form id="partnerSearchForm" action="/partnerSearch" method="POST">
-    <h2 style="text-align: left; padding-left: 20px; padding-bottom: 15px;">Your current partner is <%= currentUser.partner ? currentUser.partner : 'None' %></h2>
+    <h2 style="text-align: center; padding-left: 20px; padding-bottom: 15px;">Your current partner is <%= currentUser.partner ? currentUser.partner : 'None' %></h2>
     <div class="form-group">
       <input type="text" id="partnerUsername" name="partnerUsername" class="form-control" list="suggestions" autocomplete="off" placeholder="Enter partner's username"required>
       <datalist id="suggestions"></datalist>
@@ -125,8 +142,5 @@
       </div>
     <button type="submit" class="btn btn-primary">Set Partner</button>
   </form>
-  <div class="text-center" style="margin-top: 20px;">
-    <a href="/profile">Return to Profile</a>
-  </div>
 </body>
 </html>

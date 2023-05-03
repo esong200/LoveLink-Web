@@ -15,6 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
+app.use(express.static(__dirname + '/public'));
 
 // Google Firebase initialization
 const admin = require('firebase-admin');
@@ -41,6 +42,7 @@ mongoose.connect("mongodb://localhost:27017/loveLanguageQuiz", {
 const NudgeSchema = new mongoose.Schema({
     message: String,
     timestamp: Date,
+    drawing: String
   });
 
 //TODO @liam update this
@@ -69,6 +71,7 @@ const UserSchema = new mongoose.Schema({
 
     nudgeInbox: [NudgeSchema],
     nudgeOutbox: [NudgeSchema],
+    delayedNudgeOutbox: [NudgeSchema]
   });
 
 const User = mongoose.model("User", UserSchema);
@@ -272,6 +275,15 @@ app.get("/profile", async (req, res) => {
     }
   });
 
+  app.get("/settings", (req, res) => {
+    if (req.isAuthenticated()) {
+      res.render("settings");
+    } else {
+      req.flash("error", "You must be logged in to access settings.");
+      res.redirect("/login");
+    }
+  });
+
   // Helper function to compile quiz results into string
   let compiledResults = "Quiz summaries will appear here";
   let compatibilityReport = "Analysis will appear here";
@@ -416,7 +428,7 @@ app.get('/partnerSearch', (req, res) => {
   
         req.flash("success", `You are now connected with ${partner.username}.`);
         console.log("success", `You are now connected with ${partner.username}.`)
-        res.redirect("/profile");
+        res.redirect("/settings");
       } catch (error) {
         req.flash("error", "An error occurred while searching for a partner.");
         console.log("error", "An error occurred while searching for a partner.");
@@ -464,12 +476,17 @@ app.get("/sendNudge", (req, res) => {
   
   app.post("/sendNudge", async (req, res) => {
     const message = req.body.nudgeMessage;
+    const drawingData = req.body.drawingData;
+
     if (req.isAuthenticated()) {
         console.log(message);
       const nudge = new Nudge({
         message: message,
         timestamp: new Date(),
+        drawing: drawingData
       });
+      console.log('drawingData:');
+      console.log(drawingData);
   
       // Save nudge to sender's outbox
       req.user.nudgeOutbox.push(nudge);
@@ -490,6 +507,29 @@ app.get("/sendNudge", (req, res) => {
       req.flash("error", "You must be logged in to send a nudge.");
       res.redirect("/login");
     }
+  });
+
+  app.get('/sendNudgeDelayed', (req, res) => {
+    res.render('sendNudgeDelayed');
+  });
+  
+  app.post('/sendNudgeDelayed', async (req, res) => {
+    const nudgeMessage = req.body.nudgeMessage;
+    const nudgeDateTime = req.body.nudgeDateTime;
+    
+    console.log('sending delayed');
+    console.log(nudgeMessage);
+
+    const delayedNudge = new Nudge({
+      message: nudgeMessage,
+      timestamp: nudgeDateTime,
+    });
+
+    // Save nudge to sender's outbox
+    req.user.nudgeOutbox.push(delayedNudge);
+    await req.user.save();
+
+    res.redirect('/profile');
   });
 
 // Start the server
