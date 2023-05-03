@@ -9,6 +9,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+
   <script>
     let canvas;
     let ctx;
@@ -23,6 +25,8 @@
         const img = new Image();
         img.onload = () => ctx.drawImage(img, 0, 0);
         img.src = drawingData;
+        canvas.style.margin = "0 auto";
+    canvas.style.display = "block";
       }
     }
   
@@ -49,7 +53,7 @@
   </script>
   <style>
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Raleway', sans-serif;
       margin: 0;
       padding: 0;
       background-color: #e9a9a9;
@@ -85,6 +89,10 @@
       border: 1px solid #a8a8a8;
       margin-bottom: 10px;
     }
+    canvas:hover {
+      cursor: crosshair !important;
+}
+
   </style>
 </head>
 <body>

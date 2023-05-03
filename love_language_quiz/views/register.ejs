@@ -8,22 +8,60 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <style>
+   
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Raleway', sans-serif;
       font-weight: 500;
       margin: 0;
       padding: 0;
       background-color: #ffffff;
+      margin-top: 0;
     }
     h1 {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Raleway', sans-serif;
       text-align: center;
       font-weight: 500;
-      padding: 20px;
       color: #000000;
+      margin: 0;
     }
+    h2 {
+      font-family: 'Raleway', sans-serif;
+      text-align: center;
+      font-weight: 250;
+      font-size: 2;
+      color: #000000;
+      margin: 0;
+    }
+    .title-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 25vh;
+    }
+    .animated-title {
+      animation: title-animation 7s ease-in-out infinite;
+    }
+    @keyframes title-animation {
+      0% {
+        transform: scale(1);
+        color: #cd6161;
+      }
+      50% {
+        transform: scale(1.1);
+        color: #B2344C;
+      }
+      100% {
+        transform: scale(1);
+        color: #cd6161;
+      }
+    }
+    .text-center p {
+  margin-top: 0px;
+}
+
     form {
       max-width: 600px;
       font-weight: 500;
@@ -65,7 +103,10 @@
   </style>
 </head>
 <body>
-  <h1>Sign Up</h1>
+  <div class="title-container">
+    <h1 class="animated-title">LoveLink</h1>
+  </div>
+  <h2>SIGN UP</h2>
   <form action="/register" method="post">
     <% if (error) { %>
         <div class="alert text-center" role="alert" style="background-color: #ffffff; color: #000;">

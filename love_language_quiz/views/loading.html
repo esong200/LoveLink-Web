@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Loading...</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f5f5f5;
+    }
+    h1 {
+      animation: title-animation 2s ease-in-out infinite;
+      font-size: 3rem;
+      color: #cd6161;
+    }
+    @keyframes title-animation {
+      0% {
+        transform: scale(1);
+        color: #cd6161;
+      }
+      50% {
+        transform: scale(1.2);
+        color: #B2344C;
+      }
+      100% {
+        transform: scale(1);
+        color: #cd6161;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Loading...</h1>
+  </div>
+</body>
+</html>
