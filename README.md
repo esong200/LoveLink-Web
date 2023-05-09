@@ -1,6 +1,6 @@
 # LoveLink
 
-LoveLink is a web application that allows couples to send each other messages and drawings, either instantly or with a delay. The app includes a profile page, a settings page, and pages for sending and receiving messages with drawings (referred to as "nudges").
+LoveLink is a web application that allows couples to send each other messages and drawings, either instantly or with a delay. The app includes a profile page, a settings page, pages for sending and receiving messages with drawings (referred to as "nudges"), and a love language quiz. This quiz helps users to learn more about their partner's preferences and improve their emotional connection.
 
 ## Table of Contents
 
@@ -15,6 +15,7 @@ LoveLink is a web application that allows couples to send each other messages an
 - View sent and received messages with drawings
 - Adjust application settings, such as viewing your pin or connecting with a partner
 - Responsive design for various screen sizes
+- Love language quiz to identify users' preferences and improve emotional connections
 
 ## Installation
 
@@ -50,6 +51,7 @@ npm start
    - Send a message (nudge) with a drawing with a delay
    - View your unique pin for connecting with your partner
    - Connect with your partner using their pin
+   - Take the love language quiz to learn about your preferences and improve your emotional connection
 
 4. In the Settings page, you can choose to view your pin or connect with your partner.
 
@@ -65,6 +67,7 @@ npm start
    - `sendNudge.ejs`: Page for composing and sending a message (nudge) with a drawing instantly.
    - `sendNudgeDelayed.ejs`: Page for composing and sending a message (nudge) with a drawing with a delay.
    - `settings.ejs`: Settings page template, where users can view their pin or connect with their partner.
+   - `quiz.ejs`: Love language quiz page template, allowing users to answer questions and learn about their preferences.
 
 Please refer to the comments within each file for more detailed information about the code structure and functionality.
 
