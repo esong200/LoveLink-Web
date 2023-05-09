@@ -274,55 +274,55 @@ app.get("/settings", (req, res) => {
   }
 });
 
-  // Helper function to compile quiz results into string
-  let compiledResults = "Quiz summaries will appear here";
-  let compatibilityReport = "Analysis will appear here";
+// Helper function to compile quiz results into string
+let compiledResults = "Quiz summaries will appear here";
+let compatibilityReport = "Analysis will appear here";
 
-  function getCompiledQuizResults(userResults, partnerResults) {
-    // Formats both partner's quiz results into a single cohesive sentence
-    return `${partnerResults.name}
-    shows love through ${userResults.showLove}, 
-    enjoys activities such as ${userResults.favoriteActivity}, 
-    and communicates best through ${userResults.communicationPreference}. 
-    When asked about gift preferences they said: ${userResults.preferredGift}.
-    When asked about communication frequency they said: ${userResults.frequency}.
-    When asked the favorite thing about their partner they said ${userResults.favoriteThing}
-    Their partner, ${userResults.name},
-    shows love through ${partnerResults.showLove}, 
-    enjoys activities such as ${partnerResults.favoriteActivity}, 
-    and communicates best through ${partnerResults.communicationPreference}.
-    When asked about gift preferences they said: ${partnerResults.preferredGift}.
-    When asked about communication frequency they said: ${partnerResults.frequency}.
-    When asked the favorite thing about their partner they said ${partnerResults.favoriteThing}`;
-  }
+function getCompiledQuizResults(userResults, partnerResults) {
+  // Formats both partner's quiz results into a single cohesive sentence
+  return `${partnerResults.name}
+  shows love through ${userResults.showLove}, 
+  enjoys activities such as ${userResults.favoriteActivity}, 
+  and communicates best through ${userResults.communicationPreference}. 
+  When asked about gift preferences they said: ${userResults.preferredGift}.
+  When asked about communication frequency they said: ${userResults.frequency}.
+  When asked the favorite thing about their partner they said ${userResults.favoriteThing}
+  Their partner, ${userResults.name},
+  shows love through ${partnerResults.showLove}, 
+  enjoys activities such as ${partnerResults.favoriteActivity}, 
+  and communicates best through ${partnerResults.communicationPreference}.
+  When asked about gift preferences they said: ${partnerResults.preferredGift}.
+  When asked about communication frequency they said: ${partnerResults.frequency}.
+  When asked the favorite thing about their partner they said ${partnerResults.favoriteThing}`;
+}
 
-  async function getCompatibilityReport(prompt) {
-    try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${openai.apiKey}`,
-        },
-        body: JSON.stringify({
-            model: "gpt-3.5-turbo-0301",
-            messages: [{role: "user", content: prompt}]
-        }),
-      });
-      console.log('responded!');
-      const responseData = await response.json();
-      console.log(responseData);
-      if (responseData && responseData.choices && responseData.choices.length > 0) {
-        return responseData.choices[0].message.content;
-      } else {
-        return "Error: No response from ChatGPT";
-      }
-    } catch (error) {
-      console.error("Error querying ChatGPT:", error);
-      return "Error: Unable to get a compatibility report from ChatGPT";
+async function getCompatibilityReport(prompt) {
+  try {
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${openai.apiKey}`,
+      },
+      body: JSON.stringify({
+          model: "gpt-3.5-turbo-0301",
+          messages: [{role: "user", content: prompt}]
+      }),
+    });
+    console.log('responded!');
+    const responseData = await response.json();
+    console.log(responseData);
+    if (responseData && responseData.choices && responseData.choices.length > 0) {
+      return responseData.choices[0].message.content;
+    } else {
+      return "Error: No response from ChatGPT";
     }
-    //return 'You two have a high compatibility rating!';
+  } catch (error) {
+    console.error("Error querying ChatGPT:", error);
+    return "Error: Unable to get a compatibility report from ChatGPT";
   }
+  //return 'You two have a high compatibility rating!';
+}
 
 // Update the /compiledQuizResults route in app.js
 app.get("/compiledQuizResults", async (req, res) => {
