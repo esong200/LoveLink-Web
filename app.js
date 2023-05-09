@@ -17,17 +17,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + '/public'));
 
-// Google Firebase initialization
-const admin = require('firebase-admin');
-const serviceAccount = require('./lovelink-cs160-firebase-adminsdk-4x5ds-08996f4c48.json');
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://lovelink-cs160-default-rtdb.firebaseio.com"
-});
-
-
-
 // Set up openai key
 openai.apiKey = "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";
 
