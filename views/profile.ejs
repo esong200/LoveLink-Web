@@ -11,185 +11,182 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <style>
-    body {
-      font-family: 'Raleway', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #e9a9a9;
-    }
-    h1 {
-      text-align: center;
-      font-family: 'Raleway', sans-serif;
-      font-weight: 600;
-    
-      padding: 10px;
-      color: #ffffff;
-      padding-bottom: 0px;
-    }
-    .container {
-      max-width: 600px;
-      margin: 20px auto;
-      padding: 20px;
-      background-color: #ffffff;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #cd6161;
-      color: white;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      margin-bottom: 15px;
-      margin-top: 15px;
-    }
-    button:hover {
-      background-color: #B2344C;
-    }
-    button.logout {
-        font-weight: 500;
-        position: absolute;
-        top: 6px;
-        left: 5px;
-        width: 80px;
-        padding: 5px;
-        font-size: 16px;
-        background-color: #e9a9a9;
-        color: white;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-    }
-    button.logout:hover {
-        background-color: #B2344C;
-    }
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e9a9a9;
+        }
+        h1 {
+            text-align: center;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 600;
 
-    button.settings {
-        font-weight: 500;
-        position: absolute;
-        top: 6px;
-        right: 5px;
-        width: 80px;
-        padding: 5px;
-        font-size: 16px;
-        background-color: #e9a9a9;
-        color: white;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-    }
-    button.settings:hover {
-        background-color: #B2344C;
-    }
-    
-    .switch-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 10px;
-    }
+            padding: 10px;
+            color: #ffffff;
+            padding-bottom: 0px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #cd6161;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #B2344C;
+        }
+        button.logout {
+            font-weight: 500;
+            position: absolute;
+            top: 6px;
+            left: 5px;
+            width: 80px;
+            padding: 5px;
+            font-size: 16px;
+            background-color: #e9a9a9;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+        button.logout:hover {
+            background-color: #B2344C;
+        }
 
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 80px;
-        height: 34px;
-        margin-top: 10px;
-    }
+        button.settings {
+            font-weight: 500;
+            position: absolute;
+            top: 6px;
+            right: 5px;
+            width: 80px;
+            padding: 5px;
+            font-size: 16px;
+            background-color: #e9a9a9;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+        button.settings:hover {
+            background-color: #B2344C;
+        }
 
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
+        .switch-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
 
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        transition: .4s;
-        border-radius: 34px;
-    }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 80px;
+            height: 34px;
+            margin-top: 10px;
+        }
 
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        transition: .4s;
-        border-radius: 50%;
-    }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
 
-    input:checked + .slider {
-        background-color: #cd6161;
-    }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
 
-    input:focus + .slider {
-        box-shadow: 0 0 1px #cd6161;
-    }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
 
-    input:checked + .slider:before {    
-        transform: translateX(46px);
-    }
+        input:checked + .slider {
+            background-color: #cd6161;
+        }
 
-    .switch-label {
-        margin: 0 10px;
-    }
-    .quiz-content {
-        display: none;
-    }
-    .timestamp-text {
-        color: #BDBDBD;
-    }
-    .message-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        justify-content: center;
-        align-items: center;
-        font-weight: 500;
-    }
-    .message-content {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        text-align: center;
-        max-width: 80%;
-    }
-    li:hover {
-        background-color: #f2f2f2;
-        animation: pulse 1s ease-out infinite;
-        cursor: pointer;
-    }
+        input:focus + .slider {
+            box-shadow: 0 0 1px #cd6161;
+        }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.025);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
+        input:checked + .slider:before {    
+            transform: translateX(46px);
+        }
 
-    
+        .switch-label {
+            margin: 0 10px;
+        }
+        .quiz-content {
+            display: none;
+        }
+        .timestamp-text {
+            color: #BDBDBD;
+        }
+        .message-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            font-weight: 500;
+        }
+        .message-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 80%;
+        }
+        li:hover {
+            background-color: #f2f2f2;
+            animation: pulse 1s ease-out infinite;
+            cursor: pointer;
+        }
 
-</style>
+        @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.025);
+        }
+        100% {
+            transform: scale(1);
+        }
+        }
+  </style>
 </head>
 <body>
     <script>
@@ -221,31 +218,13 @@
            </label>
            <span class="switch-label">Quizzes</span>
         </div>
-        <!-- <button onclick="location.href='/pin';" style = "font-weight: 500;">View Your Pin</button> -->
-        <!-- <button onclick="location.href='/partnerSearch';" style = "font-weight: 500;">Connect With your Partner</button> -->
         <button class="logout" onclick="location.href='/logout';">Logout</button>
         <button class="settings" onclick="location.href='/settings';">Settings</button>
         <div class="quiz-content">
 
             <% if (mostRecentResult) { %>
-                <!-- <h2 style="text-align: left; padding-left: 20px;">Your Most Recent Quiz Result:</h2>
-                <ul style="text-align: left; padding-left: 40px;">
-                    <strong>Partner Name:</strong> <%= mostRecentResult.name %> <br>
-                    <strong>Show Love:</strong> <%= mostRecentResult.showLove %> <br>
-                    <strong>Preferred Gift:</strong> <%= mostRecentResult.preferredGift %> <br>
-                    <strong>Favorite Activity:</strong> <%= mostRecentResult.favoriteActivity %> <br>
-                    <strong>Communication Preference:</strong> <%= mostRecentResult.communicationPreference %>
-                    </ul> -->
                     <% if (currentUser.partner) { %>
                         <% if (partnerResults) { %>
-                            <!-- <h2 style="text-align: left; padding-left: 20px;">Your Partner's Most Recent Quiz Result:</h2>
-                            <ul style="text-align: left; padding-left: 40px;">
-                                <strong>Partner Name:</strong> <%= partnerResults.name %> <br>
-                                <strong>Show Love:</strong> <%= partnerResults.showLove %> <br>
-                                <strong>Preferred Gift:</strong> <%= partnerResults.preferredGift %> <br>
-                                <strong>Favorite Activity:</strong> <%= partnerResults.favoriteActivity %> <br>
-                                <strong>Communication Preference:</strong> <%= partnerResults.communicationPreference %>
-                            </ul> -->
                             <div id="quizResultsOutput">
                                 <label style="font-weight: 750;">Here are you and your partner's quiz summaries once you have taken them.</label>
                                 <label id = 'compiledQuizResultsLabel' style="color: #666666;"><%= compiledResults %></label>
@@ -331,7 +310,6 @@
                 <% } %>
             </div>
         <div><button onclick="location.href='/sendNudge';">Send Nudge</button> </div>
-
     </div>
     <div class="message-overlay" id="messageOverlay" onclick="hideMessageOverlay()">
         <div class="message-content" id="messageContent">

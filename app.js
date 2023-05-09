@@ -108,9 +108,11 @@ passport.use(
     }
   })
 );
+
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
+
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
@@ -121,7 +123,6 @@ passport.deserializeUser(async (id, done) => {
 });
 
 app.use(flash());
-
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -275,21 +276,21 @@ app.get("/profile", async (req, res) => {
     }
   });
 
-  app.get("/settings", (req, res) => {
-    if (req.isAuthenticated()) {
-      res.render("settings");
-    } else {
-      req.flash("error", "You must be logged in to access settings.");
-      res.redirect("/login");
-    }
-  });
+app.get("/settings", (req, res) => {
+  if (req.isAuthenticated()) {
+    res.render("settings");
+  } else {
+    req.flash("error", "You must be logged in to access settings.");
+    res.redirect("/login");
+  }
+});
 
   // Helper function to compile quiz results into string
   let compiledResults = "Quiz summaries will appear here";
   let compatibilityReport = "Analysis will appear here";
 
   function getCompiledQuizResults(userResults, partnerResults) {
-    //TODO @liam change this
+    // Formats both partner's quiz results into a single cohesive sentence
     return `${partnerResults.name}
     shows love through ${userResults.showLove}, 
     enjoys activities such as ${userResults.favoriteActivity}, 
@@ -401,68 +402,68 @@ app.get('/partnerSearch', (req, res) => {
     }
   });
   
-  app.post("/partnerSearch", async (req, res) => {
-    if (req.isAuthenticated()) {
-      try {
-        const partner = await User.findOne({ username: req.body.partnerUsername });
-        if (!partner) {
-          req.flash("error", "User not found.");
-          console.log("error", "User not found.");
-          return res.redirect("/partnerSearch");
-        }
-        enteredPin = parseInt(req.body.partnerPin)
-        if (partner.pin !== enteredPin) {
-          req.flash("error",  "Incorrect partner's pin.");
-          console.log(typeof partner.pin);
-          console.log(typeof req.body.partnerPin);
-          return res.redirect("/partnerSearch");
-        }
-  
-        // Set the current user's partner field to the partner's username
-        req.user.partner = partner.username;
-        await req.user.save();
-  
-        // Set the partner's partner field to the current user's username
-        partner.partner = req.user.username;
-        await partner.save();
-  
-        req.flash("success", `You are now connected with ${partner.username}.`);
-        console.log("success", `You are now connected with ${partner.username}.`)
-        res.redirect("/settings");
-      } catch (error) {
-        req.flash("error", "An error occurred while searching for a partner.");
-        console.log("error", "An error occurred while searching for a partner.");
-        res.redirect("/partnerSearch");
+app.post("/partnerSearch", async (req, res) => {
+  if (req.isAuthenticated()) {
+    try {
+      const partner = await User.findOne({ username: req.body.partnerUsername });
+      if (!partner) {
+        req.flash("error", "User not found.");
+        console.log("error", "User not found.");
+        return res.redirect("/partnerSearch");
       }
-    } else {
-      req.flash("error", "You must be logged in to search for a partner.");
-      console.log("error", "You must be logged in to search for a partner.");
-      res.redirect("/login");
+      enteredPin = parseInt(req.body.partnerPin)
+      if (partner.pin !== enteredPin) {
+        req.flash("error",  "Incorrect partner's pin.");
+        console.log(typeof partner.pin);
+        console.log(typeof req.body.partnerPin);
+        return res.redirect("/partnerSearch");
+      }
+
+      // Set the current user's partner field to the partner's username
+      req.user.partner = partner.username;
+      await req.user.save();
+
+      // Set the partner's partner field to the current user's username
+      partner.partner = req.user.username;
+      await partner.save();
+
+      req.flash("success", `You are now connected with ${partner.username}.`);
+      console.log("success", `You are now connected with ${partner.username}.`)
+      res.redirect("/settings");
+    } catch (error) {
+      req.flash("error", "An error occurred while searching for a partner.");
+      console.log("error", "An error occurred while searching for a partner.");
+      res.redirect("/partnerSearch");
     }
-  });
+  } else {
+    req.flash("error", "You must be logged in to search for a partner.");
+    console.log("error", "You must be logged in to search for a partner.");
+    res.redirect("/login");
+  }
+});
 
-    app.get('/searchSuggestions', async (req, res) => {
-        if (req.isAuthenticated()) {
-        const input = req.query.input;
-        if (input) {
-            const suggestions = await User.find({ username: { $regex: input, $options: 'i' } }).select('username').limit(5);
-            res.json(suggestions.map(suggestion => suggestion.username));
-        } else {
-            res.json([]);
-        }
-        } else {
-        res.status(401).json([]);
-        }
-    });
-
-    app.get("/pin", (req, res) => {
+app.get('/searchSuggestions', async (req, res) => {
     if (req.isAuthenticated()) {
-        res.render("pin");
+    const input = req.query.input;
+    if (input) {
+        const suggestions = await User.find({ username: { $regex: input, $options: 'i' } }).select('username').limit(5);
+        res.json(suggestions.map(suggestion => suggestion.username));
     } else {
-        req.flash("error", "You must be logged in to view your pin.");
-        res.redirect("/login");
+        res.json([]);
     }
-    });
+    } else {
+    res.status(401).json([]);
+    }
+});
+
+app.get("/pin", (req, res) => {
+if (req.isAuthenticated()) {
+    res.render("pin");
+} else {
+    req.flash("error", "You must be logged in to view your pin.");
+    res.redirect("/login");
+}
+});
 
 // Send Nudge route
 app.get("/sendNudge", (req, res) => {
@@ -474,124 +475,68 @@ app.get("/sendNudge", (req, res) => {
     }
   });
   
-  app.post("/sendNudge", async (req, res) => {
-    const message = req.body.nudgeMessage;
-    const drawingData = req.body.drawingData;
+app.post("/sendNudge", async (req, res) => {
+  const message = req.body.nudgeMessage;
+  const drawingData = req.body.drawingData;
 
-    if (req.isAuthenticated()) {
-        console.log(message);
-      const nudge = new Nudge({
-        message: message,
-        timestamp: new Date(),
-        drawing: drawingData
-      });
-      console.log('drawingData:');
-      console.log(drawingData);
-  
-      // Save nudge to sender's outbox
-      req.user.nudgeOutbox.push(nudge);
-      await req.user.save();
-  
-      // Save nudge to receiver's inbox (assumes req.user.partner exists)
-      const partner = await User.findOne({ username: req.user.partner });
-      if (partner) {
-        console.log(nudge);
-        partner.nudgeInbox.push({ ...nudge.toObject(), incoming: true });
-        await partner.save();
-        req.flash("success", "Nudge sent successfully!");
-      } else {
-        req.flash("error", "Failed to send nudge. Partner not found.");
-      }
-      res.redirect("/profile");
-    } else {
-      req.flash("error", "You must be logged in to send a nudge.");
-      res.redirect("/login");
-    }
-  });
-
-  app.get('/sendNudgeDelayed', (req, res) => {
-    res.render('sendNudgeDelayed');
-  });
-  
-  app.post('/sendNudgeDelayed', async (req, res) => {
-    const nudgeMessage = req.body.nudgeMessage;
-    const nudgeDateTime = req.body.nudgeDateTime;
-    
-    console.log('sending delayed');
-    console.log(nudgeMessage);
-
-    const delayedNudge = new Nudge({
-      message: nudgeMessage,
-      timestamp: nudgeDateTime,
+  if (req.isAuthenticated()) {
+      console.log(message);
+    const nudge = new Nudge({
+      message: message,
+      timestamp: new Date(),
+      drawing: drawingData
     });
+    console.log('drawingData:');
+    console.log(drawingData);
 
     // Save nudge to sender's outbox
-    req.user.nudgeOutbox.push(delayedNudge);
+    req.user.nudgeOutbox.push(nudge);
     await req.user.save();
 
-    res.redirect('/profile');
-  });
-    // window.addEventListener("beforeunload", function () {
-    //   document.querySelector(".title-container").classList.add("animated-title")
-    // });
+    // Save nudge to receiver's inbox (assumes req.user.partner exists)
+    const partner = await User.findOne({ username: req.user.partner });
+    if (partner) {
+      console.log(nudge);
+      partner.nudgeInbox.push({ ...nudge.toObject(), incoming: true });
+      await partner.save();
+      req.flash("success", "Nudge sent successfully!");
+    } else {
+      req.flash("error", "Failed to send nudge. Partner not found.");
+    }
+    res.redirect("/profile");
+  } else {
+    req.flash("error", "You must be logged in to send a nudge.");
+    res.redirect("/login");
+  }
+});
 
+app.get('/sendNudgeDelayed', (req, res) => {
+  res.render('sendNudgeDelayed');
+});
+
+app.post('/sendNudgeDelayed', async (req, res) => {
+  const nudgeMessage = req.body.nudgeMessage;
+  const nudgeDateTime = req.body.nudgeDateTime;
+  
+  console.log('sending delayed');
+  console.log(nudgeMessage);
+
+  const delayedNudge = new Nudge({
+    message: nudgeMessage,
+    timestamp: nudgeDateTime,
+  });
+
+  // Save nudge to sender's outbox
+  req.user.nudgeOutbox.push(delayedNudge);
+  await req.user.save();
+
+  res.redirect('/profile');
+});
 
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server is running on port ${PORT}`);
-  });
+ });
   
-
-
-// document.addEventListener('DOMContentLoaded', function() {
-//     document.getElementById("loveLanguageForm").addEventListener("submit", function(event) {
-//       event.preventDefault();
-    
-//       // Save form data to sessionStorage
-//       sessionStorage.setItem("name", document.getElementById("name").value);
-    
-//       // Assign scores to each answer
-//       const loveLanguages = {
-//         "Physical Touch": 0,
-//         "Words Of Affirmation": 0,
-//         "Quality Time": 0,
-//         "Gifts": 0,
-//         "Acts Of Service": 0
-//       };
-    
-//       const scores = {
-//         "Physical Touch": [1, 3, 5],
-//         "Words Of Affirmation": [2, 4],
-//         "Quality Time": [6, 7],
-//         "Gifts": [8],
-//         "Acts Of Service": [9]
-//       };
-    
-//       // Calculate total score for each love language based on selected answers
-//       document.querySelectorAll('input[name="showLove"]:checked').forEach((radio) => {
-//         const loveLanguage = radio.value;
-//         scores[loveLanguage].forEach((score) => {
-//           loveLanguages[loveLanguage] += score;
-//         });
-//       });
-    
-//       // Save total score for each love language to sessionStorage
-//       sessionStorage.setItem("loveLanguages", JSON.stringify(loveLanguages));
-    
-//       sessionStorage.setItem("preferredGift", document.getElementById("preferredGift").value);
-//       sessionStorage.setItem("favoriteActivity", document.getElementById("favoriteActivity").value);
-    
-//       // Save checked quality time preferences
-//       const checkedQualityTimePreferences = [];
-//       document.querySelectorAll('input[name="qualityTimePreferences"]:checked').forEach((checkbox) => {
-//         checkedQualityTimePreferences.push(checkbox.value);
-//       });
-//       sessionStorage.setItem("qualityTimePreferences", JSON.stringify(checkedQualityTimePreferences));
-    
-//       // Redirect to results page
-//       window.location.href = "results.html";
-//     });
-
-  // });
   
