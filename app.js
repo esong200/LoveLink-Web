@@ -161,8 +161,6 @@ app.get("/login", async (req, res) => {
   if (req.query.loggedOut === "true") {
     req.flash("success", "Logged out successfully!");
   }
-//   user.deviceToken = req.body.deviceToken;
-//   await user.save();
   res.render("login");
 });
 
@@ -182,13 +180,8 @@ app.post("/login", (req, res, next) => {
           return next(err);
         }
   
-        // Save the device token to the user object
-        user.deviceToken = req.body.deviceToken;
-        await user.save();
-  
         req.flash("success", "Logged in successfully!");
         console.log('logged in!');
-        console.log(req.body.deviceToken);
         res.redirect("/profile");
       });
     })(req, res, next);
@@ -339,16 +332,15 @@ app.get("/compiledQuizResults", async (req, res) => {
 
             // Ask ChatGPT!
             const chatGptPrompt = `My partner and I took a love language and got these results: ${compiledResults}. We are long-distance partners. We are located in different time zones. How should we communicate going forward?`;
-            console.log(chatGptPrompt);
             compatibilityReport = await getCompatibilityReport(chatGptPrompt);
 
             req.flash("success", "Compiled quiz results have been updated.");
-            console.log("success");
+            console.log("success. Compiled quiz results have been updated.");
             res.redirect("/profile");
           } else {
             req.flash("error", "Both partners must have taken the quiz.");
             res.redirect("/profile");
-            console.log("error");
+            console.log("error. Both partners must have taken the quiz.");
           }
         } else {
           req.flash("error", "Partner not found.");
@@ -475,8 +467,6 @@ app.post("/sendNudge", async (req, res) => {
       timestamp: new Date(),
       drawing: drawingData
     });
-    console.log('drawingData:');
-    console.log(drawingData);
 
     // Save nudge to sender's outbox
     req.user.nudgeOutbox.push(nudge);
