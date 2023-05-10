@@ -18,7 +18,7 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + '/public'));
 
 // Set up openai key
-openai.apiKey = "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";
+openai.apiKey = "enter key from README file";
 
 // Connect to MongoDB
 mongoose.connect("mongodb://localhost:27017/loveLanguageQuiz", {
