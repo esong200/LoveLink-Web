@@ -52,7 +52,7 @@ npm start
    - View your unique pin for connecting with your partner
    - Connect with your partner using their pin
    - Take the love language quiz to learn about your preferences and improve your emotional connection
-   - NOTE: in `app.js`, line 21, replace the `openai.apiKey` with the following key value
+   - NOTE: in `app.js`, line 21, replace the `openai.apiKey` with the following key `sk dash VICTOR whiskey victor ROMEO Z4BoAwQ14EESMqEXT3BlbkFJZmcoMCTXx71TPRvp nine PAPA ZULU WHISKEY`. The  first and last 4 letters/digits of the key have been disguised, with all caps corresponding to a capital letter and all lowercase corresponding to a lowercase letter. 
 
 4. In the Settings page, you can choose to view your pin or connect with your partner.
 
