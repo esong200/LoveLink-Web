@@ -52,6 +52,7 @@ npm start
    - View your unique pin for connecting with your partner
    - Connect with your partner using their pin
    - Take the love language quiz to learn about your preferences and improve your emotional connection
+   - NOTE: in `app.js`, line 21, replace the `openai.apiKey` with the following key value
 
 4. In the Settings page, you can choose to view your pin or connect with your partner.
 
